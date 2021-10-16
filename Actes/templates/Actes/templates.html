@@ -1,0 +1,299 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.87.0">
+    <title>{% block title %} Template actes Mairie {%endblock %}</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="{% static 'Actes/assets/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="{% static 'Actes/form-validation.css' %}" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="{% static 'Actes/assets/brand/bootstrap-logo.svg' %}" alt="" width="72" height="57">
+      <h2>Checkout form</h2>
+      <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+    </div>
+
+    <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+        <h1 class="mb-3">Première Partie</h1>
+        <form method = "POST" enctype="multipart/form-data">
+
+
+           {% csrf_token %}
+        <div class="row g-3">
+            <div class="col-12">
+              <label for="Le" class="form-label">Le</label>
+              <input type="text" class="form-control" id="Le" placeholder="" value="" required>
+              <div class="invalid-feedback">
+                
+              </div>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="à_un" class="form-label">heure(s)</label>
+                <input type="text" class="form-control" id="heure-1" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="à_un" class="form-label">minute(s)</label>
+                <input type="text" class="form-control" id="minute-1" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="à_un" class="form-label">est né (e) à (Ville)</label>
+                <input type="text" class="form-control" id="ville" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="à_un" class="form-label">(Pays)</label>
+                <input type="text" class="form-control" id="pays" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="Le" class="form-label">Nom</label>
+                <input type="text" class="form-control" id="nom" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="Le" class="form-label">Prénom(s):</label>
+                <input type="text" class="form-control" id="prenom" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="Le" class="form-label">de sexe :</label>
+                <input type="text" class="form-control" id="sexe" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+
+
+            <!-- Premier Parent-->
+            <h2>Premier parent</h2>
+            <div class="col-12">
+                <label for="Le" class="form-label">Fils (le) de :</label>
+                <input type="text" class="form-control" id="parent-1" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="Le" class="form-label">né le :</label>
+                <input type="text" class="form-control" id="parent-naissance-date-1" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+            <div class="col-12">
+                <label for="Le" class="form-label">Lieu de naissance</label>
+                <input type="text" class="form-control" id="parent-naissance-lieu-1" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="Le" class="form-label">Profession</label>
+                <input type="text" class="form-control" id="parent-profession-1" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+            <div class="col-12">
+                <label for="Le" class="form-label">Domicilié à </label>
+                <input type="text" class="form-control" id="parent-domicile-1" placeholder="" value="" required>
+                <div class="invalid-feedback">
+                  
+                </div>
+            </div>
+
+            
+
+                  
+        
+    <!-- Second Parent-->
+    <h2>Second parent</h2>
+    <div class="col-12">
+        <label for="Le" class="form-label">Fils (le) de :</label>
+        <input type="text" class="form-control" id="parent-2" placeholder="" value="" required>
+        <div class="invalid-feedback">
+          
+        </div>
+    </div>
+
+    <div class="col-12">
+        <label for="Le" class="form-label">né le :</label>
+        <input type="text" class="form-control" id="parent-naissance-date-2" placeholder="" value="" required>
+        <div class="invalid-feedback">
+          
+        </div>
+    </div>
+    <div class="col-12">
+        <label for="Le" class="form-label">Lieu de naissance</label>
+        <input type="text" class="form-control" id="parent-naissance-lieu-2" placeholder="" value="" required>
+        <div class="invalid-feedback">
+          
+        </div>
+    </div>
+
+    <div class="col-12">
+        <label for="Le" class="form-label">Profession</label>
+        <input type="text" class="form-control" id="parent-profession-2" placeholder="" value="" required>
+        <div class="invalid-feedback">
+          
+        </div>
+    </div>
+
+    <div class="col-12">
+        <label for="Le" class="form-label">Domicilié à </label>
+        <input type="text" class="form-control" id="parent-domicile-2" placeholder="" value="" required>
+        <div class="invalid-feedback">
+          
+        </div>
+    </div>
+
+    <!-- QUatrième partie-->
+    <h1>Quatrième partie</h1>
+
+    <div class="col-12">
+      <label for="Le" class="form-label">Dressé le  </label>
+      <input type="text" class="form-control" id="dresse le" placeholder="" value="" required>
+      <div class="invalid-feedback">
+        
+      </div>
+  </div>
+
+  <div class="col-sm-6">
+    <label for="à_un" class="form-label">heure(s)</label>
+    <input type="text" class="form-control" id="dresse-heure" placeholder="" value="" required>
+    <div class="invalid-feedback">
+      
+    </div>
+</div>
+
+<div class="col-sm-6">
+    <label for="à_un" class="form-label">minute(s)</label>
+    <input type="text" class="form-control" id="dresse-minute" placeholder="" value="" required>
+    <div class="invalid-feedback">
+      
+    </div>
+</div>
+
+<div class="col-12">
+  <label for="Le" class="form-label">sur la déclaratin de  </label>
+  <input type="text" class="form-control" id="sur_declaratin_de" placeholder="" value="" required>
+  <div class="invalid-feedback">
+    
+  </div>
+</div>
+
+
+<div class="col-12">
+  <label for="Le" class="form-label">âgé (e) de </label>
+  <input type="text" class="form-control" id="dresse-age" placeholder="" value="" required>
+  <div class="invalid-feedback">
+    
+  </div>
+</div>
+
+<div class="col-12">
+  <label for="Le" class="form-label">domicilié (e) à</label>
+  <input type="text" class="form-control" id="dresse-domicile" placeholder="" value="" required>
+  <div class="invalid-feedback">
+    
+  </div>
+</div>
+
+
+<div class="col-12">
+  <label for="Le" class="form-label">qui lecture faite et invité (e) à lire l'acte a (ont) signé avec NOUS</label>
+  <input type="text" class="form-control" id="final" placeholder="" value="" required>
+  <div class="invalid-feedback">
+    
+  </div>
+</div>
+
+</div>
+<br/>          
+<input type ='submit' value="Soumettre" class = "sub" name ="subm">
+
+</form>
+</div>
+
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017–2021 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+</div>
+
+
+      <script src="{% static 'Actes/acte_naissance_validation.js' %}">
+            
+      </script>
+
+      <script>
+            //alert("done")
+            send_info()
+      </script>
+  </body>
+</html>

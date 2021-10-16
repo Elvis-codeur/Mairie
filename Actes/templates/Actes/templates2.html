@@ -1,0 +1,94 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="AGBALENYO Komi Barthélémy Elvis">
+    <meta name="generator" content="Hugo 0.87.0">
+    <title>{% block title %} Template actes Mairie {%endblock %}</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
+
+    
+
+    <!-- Bootstrap core CSS -->
+<link href="{% static 'Actes/assets/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template -->
+    <link href="{% static 'Actes/form-validation.css' %}" rel="stylesheet">
+  </head>
+  <body class="bg-light">
+    
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="{% static 'Actes/assets/brand/bootstrap-logo.svg' %}" alt="" width="72" height="57">
+      <h2>Checkout form</h2>
+      <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+    </div>
+
+    <div class="row g-5" style="width: 100%;margin: auto;">
+            <div class="col-md-7 col-lg-8">
+
+                <form method = "POST" class ="needs-validation" enctype="multipart/form-data">
+                    <div class="row g-3">
+                    {% csrf_token %} 
+
+                    {% for k in form %}
+                    <div class="{{k.containner}}">
+                        <label for="{{k.label}}" class="form-label">{{k.label}}</label>
+                        {{k.f}}
+                       <div class="invalid-feedback">
+                          
+                        </div>
+                      </div>
+                    {% endfor %}
+                    <input type ='submit'value="Soumettre" class = "btn btn-lg btn-primary">
+                        
+                </div>
+                </form>
+            </div>
+    </div>
+
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2017–2021 Company Name</p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+</div>
+
+
+      <script src="{% static 'Actes/acte_naissance_validation.js' %}">
+            
+      </script>
+
+      <script>
+            //alert("done")
+            send_info()
+      </script>
+  </body>
+</html>
