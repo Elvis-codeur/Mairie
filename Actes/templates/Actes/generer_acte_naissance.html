@@ -51,12 +51,10 @@
 
                 <form method = "POST" class ="needs-validation" enctype="multipart/form-data">
                     <div class="row g-3">
-                    {% csrf_token %} 
-
                     {% for k in form %}
                     <div class="{{k.containner}}">
                         <label for="{{k.label}}" class="form-label">{{k.label}}</label>
-                        {{k.f}}
+                        <label class="form-label">{{k.label_value}}</label>
                        <div class="invalid-feedback">
                           
                         </div>
@@ -92,3 +90,4 @@
       </script>
   </body>
 </html>
+

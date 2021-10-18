@@ -5,15 +5,18 @@ function get_child_class(element)
 }
 function send_info()
 {
+    /*
     datas = document.getElementsByTagName("p")
     for(i = 0; i < datas.length;i++)
     {
         
         
     }
+    */
+
     //alert("done")
     
-    /*
+    
     //alert("done")
     datas = document.getElementsByTagName("input")
     for(var i = 0;i<datas.length;i++)
@@ -23,7 +26,7 @@ function send_info()
             datas[i].value = "e"
         }
     }
-    */
+    
     
     /*
     datas = document.getElementsByTagName("input")

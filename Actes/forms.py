@@ -1,3 +1,4 @@
+from django.core.files.storage import default_storage
 import django.forms
 import django.forms as forms
 from django.forms import fields
@@ -79,10 +80,12 @@ class ActesNaissanceForm(forms.Form):
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
 
     dresse_le_age= forms.CharField(label = "âgé (e) de",
-    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+    widget=forms.NumberInput(attrs={"class":"form-control","containner":"col-12s"}))
 
     dresse_domicile= forms.CharField(label = "domicilié (e) à",
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
 
     dresse_lecture= forms.CharField(label = "qui lecture faite et invité (e) à lire a (ont) signé avec NOUS",
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    scan_manuscrit = forms.FileField()

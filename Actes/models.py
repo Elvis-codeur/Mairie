@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.base import Model
 from django.forms.models import model_to_dict
 
 
@@ -7,7 +8,7 @@ class ActesNaissanceModel(models.Model):
 
    le = models.CharField(verbose_name= "Le",max_length=300)
    heure = models.IntegerField(verbose_name="heure(s)")
-   minutes = models.IntegerField(verbose_name="minute(s)")
+   minute = models.IntegerField(verbose_name="minute(s)")
 
    est_ne_ville = models.CharField(verbose_name="est né à (Ville)",max_length=25)
    est_ne_pays = models.CharField(verbose_name= "(Pays)",max_length=25)
@@ -45,3 +46,5 @@ class ActesNaissanceModel(models.Model):
    dresse_le_age= models.IntegerField(verbose_name="Dressé âges")
    dresse_domicile= models.CharField(verbose_name="Dressé domicile",max_length=30)
    dresse_lecture= models.CharField(verbose_name="avec Nous",max_length=200)
+
+   scan_manuscrit = models.FileField(upload_to="actes_naissance_original/",default="")

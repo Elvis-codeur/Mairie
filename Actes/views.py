@@ -5,13 +5,16 @@ from django.template import loader
 from django.http import HttpResponse
 
 from Actes.forms import *
+from Actes.verifications import *
 
 def p(request):
     if(request.method == "POST"):
-        form = ActesNaissanceForm(request.POST)
-        print(request.POST)
+        form = ActesNaissanceForm(request.POST,request.FILES)
+        #print(request.POST)
         if(form.is_valid()):
-            print(form.cleaned_data)
+            #print(form.cleaned_data)
+            #print(save_acte_naissance(form.cleaned_data))
+            return HttpResponse(generate_actes_naissance(form.cleaned_data))
 
         else:
             print("LOSE")
