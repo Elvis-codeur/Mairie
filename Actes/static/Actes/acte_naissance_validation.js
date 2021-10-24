@@ -21,9 +21,9 @@ function send_info()
     datas = document.getElementsByTagName("input")
     for(var i = 0;i<datas.length;i++)
     {
-        if(datas[i].name != "csrfmiddlewaretoken" && datas[i].name != "subm")
+        if(datas[i].type != "hidden")
         {
-            datas[i].value = "e"
+            datas[i].value = 1
         }
     }
     

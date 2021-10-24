@@ -33,22 +33,20 @@
     </style>
 
     
-    <!-- Custom styles for this template -->
+    <!-- Custom styles for this template class="row g-5"  class="container" class="bg-light"-->
     <link href="{% static 'Actes/form-validation.css' %}" rel="stylesheet">
   </head>
-  <body class="bg-light">
+  <body style="background-color: beige;">
     
-<div class="container">
-  <main>
+<div >
+  <main style="width: 80%;margin-left: auto;">
     <div class="py-5 text-center">
-      <img class="d-block mx-auto mb-4" src="{% static 'Actes/assets/brand/bootstrap-logo.svg' %}" alt="" width="72" height="57">
-      <h2>Checkout form</h2>
-      <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
-    </div>
+      
+      </div>
 
-    <div class="row g-5" style="width: 100%;margin: auto;">
+    <div>
             <div class="col-md-7 col-lg-8">
-
+              <p style="width: 50%;margin:auto;text-decoration: underline;font-size: xx-large;">{{form_title}}</p>
                 <form method = "POST" class ="needs-validation" enctype="multipart/form-data">
                     <div class="row g-3">
                     {% csrf_token %} 

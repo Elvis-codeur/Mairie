@@ -25,6 +25,9 @@ SECRET_KEY = 'django-insecure-1*2$_*po6)c@ep)-(qi^^%h6l@ut_pgf5dunx_jw7l#%6y0_-#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CLIENT_URL = "clients/"
+
+
 ALLOWED_HOSTS = []
 
 
@@ -32,6 +35,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'Actes.apps.ActesConfig',
+    'Client.apps.ClientConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -104,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'UTC'
 
