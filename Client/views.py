@@ -9,7 +9,7 @@ from Client.forms import *
 from Client.models import *
 # Create your views here.
 
-def dashboard(request):
+def dashboard(request,message):
     deces = ActesDecesModel.objects.all()
 
     deces_class_nom = ActesDecesModel.objects.order_by("-nom")
@@ -57,11 +57,12 @@ def dashboard(request):
     context["form"] =f
     context["form1"] = f1
     context["links"] = create_links(langue="fr")
+    context["message"] = "Elvis"
     template = loader.get_template("Actes/officiers_vue.html")
     return HttpResponse(template.render(context = context,request = request))
     
 
-def add_naissance(request,message):
+def add_naissance(request):
     if(request.method == "POST"):
         form = ActesNaissanceForm(request.POST,request.FILES)
         #print(request.POST)
@@ -100,11 +101,12 @@ def add_naissance(request,message):
         context["form"] =l
         context["title"] = "Ajouter actes de naissance"
         context["form_title"] = "ACTE DE NAISSANCE"
+        context["message"] = "ELvu fqskdh "
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
 
 
-def add_deces(request,message):
+def add_deces(request):
     if(request.method == "POST"):
         form = ActesDecesForm(request.POST,request.FILES)
         #print(request.POST)
@@ -154,7 +156,7 @@ def add_deces(request,message):
         return HttpResponse(template.render(context = context,request = request))
 
 
-def add_mariage(request,message):
+def add_mariage(request):
     if(request.method == "POST"):
         form = ActesMariageForm(request.POST,request.FILES)
         #print(request.POST)

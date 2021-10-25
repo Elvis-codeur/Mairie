@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.base import Model
+from django.contrib.auth.models import User
 from Actes.models import *
 
 
@@ -27,6 +28,7 @@ class MariageJournal(LoginJournal):
 
 
 class Maire(models.Model):
+    user = models.OneToOneField(User, on_delete=models.SET_DEFAULT,default = 1)
     date_first_creation = models.DateTimeField(auto_now_add=True,verbose_name="Date de parution")
     date_last_modification = models.DateTimeField(auto_now=True,verbose_name="Date de dernière modification")
     identifiant = models.IntegerField(default=0)
@@ -38,6 +40,7 @@ class Maire(models.Model):
 
 
 class Executant(models.Model):
+    user = models.OneToOneField(User, on_delete=models.SET_DEFAULT,default = 1)
     date_first_creation = models.DateTimeField(auto_now_add=True,verbose_name="Date de parution")
     date_last_modification = models.DateTimeField(auto_now=True,verbose_name="Date de dernière modification")
     identifiant = models.IntegerField(default=0)
@@ -49,6 +52,7 @@ class Executant(models.Model):
     def __str__(self):
         return self.nom
 class Mairie(models.Model):
+    #user = models.OneToOneField(User, on_delete=models.SET_DEFAULT,default = 1)
     date_first_creation = models.DateTimeField(auto_now_add=True,verbose_name="Date de parution")
     date_last_modification = models.DateTimeField(auto_now=True,verbose_name="Date de dernière modification")
     identifiant = models.IntegerField(default=0)

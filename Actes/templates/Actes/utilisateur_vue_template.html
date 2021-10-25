@@ -84,25 +84,25 @@
 
           <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
             <li>
-                <a href="#" class="nav-link text-white">
+                <a href="{% url "Client:dashboard_link" 42 %}" class="nav-link text-white">
                   <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"/></svg>
                   Dashboard
                 </a>
               </li>
             
-              <a href="{% url 'Client:dashboard' %}" class="nav-link text-white">
+              <a href="{% url "Client:naissance" 42 %}" class="nav-link text-white">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"/></svg>
                 Actes de naissance
               </a>
             </li>
             <li>
-              <a href="{{links.m}}" class="nav-link text-white">
+              <a href="{% url "Client:mariage" 42 %}" class="nav-link text-white">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"/></svg>
                 Actes de mariage
               </a>
             </li>
             <li>
-              <a href="{{links.d}}" class="nav-link text-white">
+              <a href="{% url "Client:deces" message %}" class="nav-link text-white">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"/></svg>
                 Actes de décès
               </a>
