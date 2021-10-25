@@ -9,7 +9,7 @@ from Client.forms import *
 from Client.models import *
 # Create your views here.
 
-def dashboard(request,message):
+def dashboard(request):
     deces = ActesDecesModel.objects.all()
 
     deces_class_nom = ActesDecesModel.objects.order_by("-nom")
