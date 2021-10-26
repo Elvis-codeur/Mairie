@@ -30,5 +30,5 @@ class ActesChoiceForm(forms.Form):
    categorie = forms.MultipleChoiceField(choices = ACTES_CHOICES,
                                           label = "Actes de ",
                                           widget=forms.Select(attrs={'class': '',"id":"catego",
-                                          "onclick":"change_sous_categorie()"}))
+                                          "onchange":"change()"}))
     

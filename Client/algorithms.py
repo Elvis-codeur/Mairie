@@ -1,3 +1,4 @@
+from django.db import close_old_connections
 from .links import LINKS
 
 from django.conf import settings
@@ -45,18 +46,37 @@ def get_actesmariage_by_id(id):
     return ActesMariageModel.objects.get(identifiant = id)
 
 
-def save_journal(a,acte,type):
+def filter_objects(classname,argument):
+    #Pour récuperer nos objets
+    if(classname == "naissance"):
+        print(ActesNaissanceModel.objects.filter(argument))
+
+def prepare_html_list(classname):
+    l=[]
+    if(classname == "naissance"):
+        tab = ActesNaissanceModel.objects.all()
+        for i in tab:
+            p = {}
+            p['nom'] = i.nom
+            p["prenom"] = i.prenom
+            p["le"] = i.le 
+            l.append(p)
+
+    #print(l)
+    return l
+
+
+
+def save_journal(a,type):
     print(a)
 
-    ac = acte
+    ac = 1
     if(type == "mariage"):
-        ac = ActesMariageModel()
+        ac = MariageJournal()
     elif(type == "naissance"):
-        ac = ActesNaissanceModel()
+        ac = NaissanceJournal()
     else:
-        ac = ActesDecesModel()
-
-    print("j = ",ac)
+        ac = DecesJournal()
     
     ac.maire = get_maire_by_id(int(a["maire"]))
     ac.mairie = get_mairie_by_id(int(a["mairie"]))

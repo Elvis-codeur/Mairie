@@ -84,19 +84,19 @@
 
           <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
             <li>
-                <a href="{% url "Client:dashboard_link" 42 %}" class="nav-link text-white">
+                <a href="{% url "Client:dashboard" message %}" class="nav-link text-white">
                   <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"/></svg>
                   Dashboard
                 </a>
               </li>
             
-              <a href="{% url "Client:naissance" 42 %}" class="nav-link text-white">
+              <a href="{% url "Client:naissance" message %}" class="nav-link text-white">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"/></svg>
                 Actes de naissance
               </a>
             </li>
             <li>
-              <a href="{% url "Client:mariage" 42 %}" class="nav-link text-white">
+              <a href="{% url "Client:mariage" message %}" class="nav-link text-white">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"/></svg>
                 Actes de mariage
               </a>
@@ -144,11 +144,7 @@
     <thead>
     <tr>
     
-    <th scope="col" class="action-checkbox-column">
-       
-       <div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
-       <div class="clear"></div>
-    </th>
+    
     <th scope="col" class="sortable column-le">
        
          
@@ -173,20 +169,10 @@
     </tr>
     </thead>
     <tbody>
-    
-    
-    
-    <tr >
-        <td class="action-checkbox"><input type="checkbox" name="_selected_action" value="19" class="action-select"></td>
-        <th class="field-le"><a href="/admin/Actes/actesdecesmodel/19/change/">1</a></th>
-        <td class="field-nom">1</td>
-        <td class="field-prenom">1</td>
-    </tr>
-
+  
     {% for i in list %} 
     <tr>
-        <td class="action-checkbox"><input type="checkbox" name="_selected_action" value="19" class="action-select"></td>
-        <th class="field-le"><a href="">{{i.le}}</a></th>
+       <th class="field-le"><a href="">{{i.le}}</a></th>
         <td class="field-nom">{{i.nom}}</td>
         <td class="field-prenom">{{i.prenom}}</td>
     </tr>
@@ -196,6 +182,7 @@
     </table>
     </div>
 
+      <!--
     <div class = "search" id = "search-zone">
         <h1 class = "search-title">Recherchez Par</h1>
         <h2>Nom</h2>
@@ -212,6 +199,7 @@
         <h6>{{i.nom}}</h6>
         {%endfor%}
     </div>
+  -->
 
 
  
@@ -223,9 +211,13 @@
 
       <script src="{% static 'Actes/sidebars.js' %}"></script>
       <script src="{% static 'Actes/my_sidebars.js' %}"></script>
+      <script src = "{% static 'Actes/algorithms.js' %}"></script>
 
       <script>
-          manage_side_bar()
+          function change()
+          {
+            change_table()
+          }
       </script>
   </body>
 </html>

@@ -16,14 +16,21 @@ class LoginJournal(models.Model):
 class NaissanceJournal(LoginJournal):
     naissance = models.ForeignKey(ActesNaissanceModel,default=1,verbose_name="ActesNaissanceModel",on_delete=models.SET_DEFAULT)
     action = ""
+    
 
 class DecesJournal(LoginJournal):
     deces = models.ForeignKey(ActesDecesModel,default=1,verbose_name="ActesDecesModel",on_delete=models.SET_DEFAULT)
     action = ""
 
+    def save(self, *args, **kwargs):
+        super(DecesJournal, self).save(*args, **kwargs)
+
 class MariageJournal(LoginJournal):
     mariage = models.ForeignKey(ActesMariageModel,default=1,verbose_name="ActesMariageModel",on_delete=models.SET_DEFAULT)
     action = ""
+
+    def save(self, *args, **kwargs):
+        super(MariageJournal, self).save(*args, **kwargs)
     
 
 

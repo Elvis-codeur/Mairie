@@ -4,65 +4,35 @@ from django.shortcuts import render
 from django.template import loader
 from Actes.forms import *
 from Actes.verifications import *
-from Client.algorithms import create_links, get_actesnaissance_by_id, get_maire_by_id, get_mairie_by_id, parse_message, save_journal
+from Client.algorithms import *
 from Client.forms import *
 from Client.models import *
 # Create your views here.
 
 def dashboard(request,message):
-    deces = ActesDecesModel.objects.all()
 
-    deces_class_nom = ActesDecesModel.objects.order_by("-nom")
+    if(request.method == "POST"):
+        a = 0
 
-    context = {}
-     
-    l = []
-    for i in deces:
-        p = {}
-        p["nom"] = i.nom
-        p["prenom"] = i.prenom
-        p["le"] = i.le
-        l.append(p)
-    context["list"] = l
-    # Pour la liste principale
+    else:
+        context = {}
+        f = SearchForm()
+        f1 = ActesChoiceForm()
+        context["form"] =f
+        context["form1"] = f1
+        context["links"] = create_links(langue="fr")
+        context["message"] = message
+        context["list"] = prepare_html_list("naissance")
 
-    # Recherche par nom
-    l = []
-    for i in deces_class_nom:
-        p = {}
-        p["nom"] = i.nom
-        l.append(p)
-
-    context["l_nom"] = l
+        template = loader.get_template("Actes/officiers_vue.html")
+        return HttpResponse(template.render(context = context,request = request))
+    
     
 
-    # Prénom
-    l = []
-    for i in ActesDecesModel.objects.order_by("-prenom"):
-        p = {}
-        p["nom"] = i.prenom
-        l.append(p)
-    context["l_prenom"] = l
     
-    # Par date de naissance
-    l = []
-    for i in ActesDecesModel.objects.order_by("-date_naissance"):
-        p = {}
-        p["nom"] = i.prenom
-        l.append(p)
-    context["l_dn"] = l
-
-    f = SearchForm()
-    f1 = ActesChoiceForm()
-    context["form"] =f
-    context["form1"] = f1
-    context["links"] = create_links(langue="fr")
-    context["message"] = "Elvis"
-    template = loader.get_template("Actes/officiers_vue.html")
-    return HttpResponse(template.render(context = context,request = request))
     
 
-def add_naissance(request):
+def add_naissance(request,message):
     if(request.method == "POST"):
         form = ActesNaissanceForm(request.POST,request.FILES)
         #print(request.POST)
@@ -71,7 +41,7 @@ def add_naissance(request):
             i = save_acte_naissance(form.cleaned_data)
             a = parse_message(message)
             a["ident"] = i
-            save_journal(a,ActesNaissanceModel(),"naissance")
+            save_journal(a,"naissance")
             
 
 
@@ -106,7 +76,7 @@ def add_naissance(request):
         return HttpResponse(template.render(context = context,request = request))
 
 
-def add_deces(request):
+def add_deces(request,message):
     if(request.method == "POST"):
         form = ActesDecesForm(request.POST,request.FILES)
         #print(request.POST)
@@ -116,7 +86,7 @@ def add_deces(request):
             i = save_acte_deces(form.cleaned_data)
             a = parse_message(message)
             a["ident"] = i
-            save_journal(a,ActesDecesModel(),"deces")
+            save_journal(a,"deces")
             #ACTES_DECES_STRING = generate_actes_deces(form.cleaned_data)
 
             #print("\n\n",ACTES_DECES_STRING)
@@ -156,7 +126,7 @@ def add_deces(request):
         return HttpResponse(template.render(context = context,request = request))
 
 
-def add_mariage(request):
+def add_mariage(request,message):
     if(request.method == "POST"):
         form = ActesMariageForm(request.POST,request.FILES)
         #print(request.POST)
@@ -165,7 +135,7 @@ def add_mariage(request):
             i = save_actes_mairiage(form.cleaned_data)
             a = parse_message(message)
             a["ident"] = i
-            save_journal(a,ActesMariageModel(),"mariage")
+            save_journal(a,"mariage")
 
             #pdf = generate_actes_deces(form.cleaned_data)
 
@@ -201,3 +171,22 @@ def add_mariage(request):
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
 
+def get_element(request,code):
+
+    if(code == "1"):
+        a = ActesNaissanceModel.objects.all()
+        l =""
+        for i in a:
+            l = i.le + "," +i.nom+","+i.prenom + ";"
+
+        return HttpResponse(l)
+
+    elif(code == "2"):
+        a = ActesMariageModel.objects.all()
+        l =""
+        for i in a:
+            l = i.le + "," +i.nom+","+i.prenom + ";"
+            
+        return HttpResponse(l)
+    else:
+        return ActesDecesModel.objects.all()
