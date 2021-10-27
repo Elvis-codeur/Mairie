@@ -5,6 +5,8 @@ from .links import LINKS
 from django.conf import settings
 from Client.models import *
 
+from django.urls import reverse
+
 def create_url_message(tab,action):
     return "mairie={} executant={} maire={} action={}".format(tab[0],tab[1],tab[2],action)
 
@@ -65,17 +67,42 @@ def prepare_html_list(classname):
     #print(l)
     return l
 
-def prepare_maire_html_list(classname,ma):
+def prepare_maire_html_list(classname,ma,message):
     l = []
+    m =" ".join(message.split(" ")[1:])
+
     if(classname == "naissance"):
         tab = NaissanceJournal.objects.filter(maire = get_maire_by_id(ma))
         print(tab)
         for i in tab:
             p = {}
+            p["link"] = reverse("Client:modify_naissance",kwargs ={"message":m})
             p["nom"] = i.naissance.nom
             p["prenom"] = i.naissance.prenom
-            p["exectutant"] = str(i.executant)
+            p["executant"] = str(i.executant)
             l.append(p)
+    elif(classname == "mariage"):
+        tab = MariageJournal.objects.filter(maire = get_maire_by_id(ma))
+        print(tab)
+        for i in tab:
+            p = {}
+            p["link"] = reverse("Client:modify_naissance",kwargs ={"message":m})
+            p["nom"] = i.naissance.nom
+            p["prenom"] = i.naissance.prenom
+            p["executant"] = str(i.executant)
+            l.append(p)
+    else:
+        tab = DecesJournal.objects.filter(maire = get_maire_by_id(ma))
+        print(tab)
+        for i in tab:
+            p = {}
+            p["link"] = reverse("Client:modify_naissance",kwargs ={"message":m})
+            p["nom"] = i.deces.nom
+            p["prenom"] = i.deces.prenom
+            p["executant"] = str(i.executant)
+            l.append(p)
+
+    print(l)
     return l
 
 

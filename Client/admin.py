@@ -4,11 +4,30 @@ from .models import *
 class MaireAdmin(admin.ModelAdmin):
     list_display = ("nom","prenom")
 
+    def prenom(self,a):
+        return a.user.first_name
+
+    def nom(self,a):
+        return a.user.last_name
+
+    prenom.short_description = "Prenom"
+    nom.short_description = "Nom"
+
+
 class MairieAdmin(admin.ModelAdmin):
     list_display = ("nom","addresse")
 
 class ExecutantAdmin(admin.ModelAdmin):
     list_display = ("nom","prenom")
+
+    def prenom(self,a):
+        return a.user.first_name
+
+    def nom(self,a):
+        return a.user.last_name
+
+    prenom.short_description = "Prenom"
+    nom.short_description = "Nom"
 
 class NaissanceJournalAdmin(admin.ModelAdmin):
     list_display = ("date_first_creation","mairie","maire","executant","naissance")

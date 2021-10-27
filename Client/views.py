@@ -76,6 +76,51 @@ def add_naissance(request,message):
         return HttpResponse(template.render(context = context,request = request))
 
 
+def modify_naissance(request,message):
+    if(request.method == "POST"):
+        form = ActesNaissanceForm(request.POST,request.FILES)
+        #print(request.POST)
+        if(form.is_valid()):
+            #print(form.cleaned_data)
+            i = save_acte_naissance(form.cleaned_data)
+            a = parse_message(message)
+            a["ident"] = i
+            save_journal(a,"naissance")
+            
+
+
+            #return HttpResponse(generate_actes_naissance(form.cleaned_data))
+            return HttpResponse("True")
+        else:
+            print("LOSE")
+        return HttpResponse("none")
+    else:
+        form = ActesNaissanceForm(auto_id=True)
+        l =[]
+        for i in form:
+            dic = {}
+            dic["f"]=i
+            dic["label"] = i.label
+            a = str(i)
+            a = a.split(" ")
+            for kl in a:
+                if("containner" in kl):
+                    c = kl.split("=")[1]
+                    dic["containner"] = c[1:len(c)-1]
+                
+            #print(dic)
+            l.append(dic)
+            
+        context = {}
+        context["form"] =l
+        context["title"] = "Ajouter actes de naissance"
+        context["form_title"] = "ACTE DE NAISSANCE"
+        context["message"] = message
+        template = loader.get_template("Actes/templates2.html")
+        return HttpResponse(template.render(context = context,request = request))
+
+
+
 def add_deces(request,message):
     if(request.method == "POST"):
         form = ActesDecesForm(request.POST,request.FILES)
@@ -208,8 +253,46 @@ def maire_account_view(request,message):
         
         context = {}
         context["message"] = message
+        context["list"] = prepare_maire_html_list("naissance",0,message)
+        
+        template = loader.get_template("Actes/maire_vue.html")
+        return HttpResponse(template.render(context = context,request = request))
 
-        context["list"] = prepare_maire_html_list("naissance",0)
+def maire_naissance_view(request,message):
+    if(request.method == "POST"):
+        a = 0
+    else:
+
+        
+        context = {}
+        context["message"] = message
+        context["list"] = prepare_maire_html_list("naissance",0,message)
+        
+        template = loader.get_template("Actes/maire_vue.html")
+        return HttpResponse(template.render(context = context,request = request))
+
+def maire_deces_view(request,message):
+    if(request.method == "POST"):
+        a = 0
+    else:
+
+        
+        context = {}
+        context["message"] = message
+        context["list"] = prepare_maire_html_list("deces",0,message)
+        
+        template = loader.get_template("Actes/maire_vue.html")
+        return HttpResponse(template.render(context = context,request = request))
+
+def maire_mariage_view(request,message):
+    if(request.method == "POST"):
+        a = 0
+    else:
+
+        
+        context = {}
+        context["message"] = message
+        context["list"] = prepare_maire_html_list("mariage",0,message)
         
         template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))

@@ -13,14 +13,18 @@
 
     
 
-    <!-- Bootstrap core CSS -->
-    <link href="{% static 'Actes/assets/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Bootstrap core CSS 
+    <link href="{% static 'Actes/sidebars.css' %}" rel="stylesheet">
     <link href="{% static 'Actes/base.css' %}" rel="stylesheet">
     <link href="{% static 'Actes/changelists.css' %}" rel="stylesheet">
     <link href="{% static 'Actes/form-validation.css' %}" rel="stylesheet">
     <link href="{% static 'Actes/headers.css' %}" rel="stylesheet">
+    
+    -->
+    <link href="{% static 'Actes/assets/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    
     <link href="{% static 'Actes/styles.css' %}" rel="stylesheet">
-    <link href="{% static 'Actes/sidebars.css' %}" rel="stylesheet">
+    
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -132,11 +136,7 @@
 </header>
   {% block main %}
   <main style="width: 80%;margin-left: auto;">
-    <div class="py-5 text-center">
-      
-      </div>
-
-    <div>
+    
             <div class="col-md-7 col-lg-8">
               <p style="width: 50%;margin:auto;text-decoration: underline;font-size: xx-large;">{{form_title}}</p>
                 <form method = "POST" class ="needs-validation" enctype="multipart/form-data">
@@ -156,8 +156,8 @@
                         
                 </div>
                 </form>
+              
             </div>
-    </div>
 
   </main>
   {%endblock%}

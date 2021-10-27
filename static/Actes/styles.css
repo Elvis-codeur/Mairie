@@ -1,0 +1,37 @@
+.table-title
+{
+    width: 25%;
+    margin: auto;
+    border-radius: 10%;
+    /*background-color: dodgerblue;*/
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+.div-tab
+{
+    
+}
+.search
+{
+    display: inline-block;
+    position:relative;
+    vertical-align: top;
+    background-color: rgb(250, 211, 161);
+    margin-top:-20px;
+    margin-left: 71%;
+    width: 29%;
+    border-radius: 5px;
+}
+
+.search-title
+{
+    font-size: 1.5em;
+    font-family:Consolas;
+    color:cadetblue;
+}
+
+.count_view
+{
+    width: 50%;
+    margin: auto;
+}
