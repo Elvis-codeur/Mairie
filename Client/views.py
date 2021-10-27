@@ -71,7 +71,7 @@ def add_naissance(request,message):
         context["form"] =l
         context["title"] = "Ajouter actes de naissance"
         context["form_title"] = "ACTE DE NAISSANCE"
-        context["message"] = "ELvu fqskdh "
+        context["message"] = message
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
 
@@ -122,6 +122,7 @@ def add_deces(request,message):
         context["form"] =l
         context["title"] = "Ajouter actes de décès"
         context["form_title"] = "ACTE DE DECES"
+        context["message"] = message
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
 
@@ -168,7 +169,49 @@ def add_mariage(request,message):
         context["form"] =l
         context["title"] = "Ajouter actes de mariage"
         context["form_title"] = "ACTE DE MARIAGE"
+        context["message"] = message
         template = loader.get_template("Actes/templates2.html")
+        return HttpResponse(template.render(context = context,request = request))
+
+
+def account_view(request,message):
+    if(request.method == "POST"):
+        a  = 0
+
+    else:
+        a = parse_message(message)
+        executant = get_executant_by_id(a["executant"])
+
+        element = generate_compte_view(executant)
+        print(element)
+        l = []
+        for i in list(element.keys()):
+            b = {}
+            b["label"] = i +":"
+            b["f"] = element[i]
+            b["containner"] = "col-12s"
+            l.append(b)
+
+        context = {}
+        context["message"] = message
+        context["form"] = l
+        template = loader.get_template("Actes/compte_vue.html")
+
+        return HttpResponse(template.render(context = context,request = request))
+
+
+def maire_account_view(request,message):
+    if(request.method == "POST"):
+        a = 0
+    else:
+
+        
+        context = {}
+        context["message"] = message
+
+        context["list"] = prepare_maire_html_list("naissance",0)
+        
+        template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))
 
 def get_element(request,code):

@@ -1,0 +1,54 @@
+{% extends "Actes/officiers_vue.html" %}
+
+{% block main %} 
+
+
+<div class ="div-tab" id ="table" >
+    <!--<div class = "table-title">Actes de naissance</div> -->
+    <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+      {% csrf_token %} 
+      {{form1.as_p}}
+  </div>
+    <table id="result_list" style="width: 100%;">
+    <thead>
+    <tr>
+    
+    
+    <th scope="col" class="sortable column-le">
+       
+         
+       
+       <div class="text"><a href="?o=1">Nom</a></div>
+       <div class="clear"></div>
+    </th>
+    <th scope="col" class="sortable column-nom">
+       
+         
+       
+       <div class="text"><a href="?o=2">Prénom</a></div>
+       <div class="clear"></div>
+    </th>
+    <th scope="col" class="sortable column-prenom">
+       
+         
+       
+       <div class="text"><a href="?o=3">Executant</a></div>
+       <div class="clear"></div>
+    </th>
+    </tr>
+    </thead>
+    <tbody>
+  
+    {% for i in list %} 
+    <tr>
+       <th class="field-le"><a href="">{{i.le}}</a></th>
+        <td class="field-nom">{{i.nom}}</td>
+        <td class="field-prenom">{{i.prenom}}</td>
+    </tr>
+    {%endfor%}
+    
+    </tbody>
+    </table>
+    </div>
+
+{%endblock%}

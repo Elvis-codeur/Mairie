@@ -18,7 +18,9 @@
 <link href="{% static 'Actes/base.css' %}" rel="stylesheet">
 <link href="{% static 'Actes/changelists.css' %}" rel="stylesheet">
 
-
+<link href="{% static 'Actes/headers.css' %}" rel="stylesheet">
+<link href="{% static 'Actes/styles.css' %}" rel="stylesheet">
+<link href="{% static 'Actes/sidebars.css' %}" rel="stylesheet">
 
 
     <style>
@@ -108,7 +110,7 @@
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link text-white">
+              <a href="{% url "Client:officer_account" message %}" class="nav-link text-white">
                 <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"/></svg>
                 Votre compte
               </a>
@@ -133,6 +135,8 @@
     </div>
   </header>
 
+
+  {% block main %}
       
 <div class ="div-tab" id ="table" >
     <!--<div class = "table-title">Actes de naissance</div> -->
@@ -200,7 +204,7 @@
         {%endfor%}
     </div>
   -->
-
+  {%endblock%}
 
  
 

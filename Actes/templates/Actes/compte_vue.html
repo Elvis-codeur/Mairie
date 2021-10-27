@@ -1,0 +1,16 @@
+{% extends "Actes/templates2.html" %}
+
+{% block main %}
+
+
+<div class="count_view" style="width: 30%;margin: auto;">
+    <h1>Vos informations</h1>
+{% for k in form %}
+<div class="{{k.containner}}">
+    <label for="{{k.label}}" class="form-label">{{k.label}}</label>
+    <b>{{k.f}}</b>
+  </div>
+  <br/>
+{% endfor %}
+</div>
+{%endblock%}

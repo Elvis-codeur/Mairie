@@ -39,11 +39,10 @@ class Maire(models.Model):
     date_first_creation = models.DateTimeField(auto_now_add=True,verbose_name="Date de parution")
     date_last_modification = models.DateTimeField(auto_now=True,verbose_name="Date de dernière modification")
     identifiant = models.IntegerField(default=0)
-    nom = models.CharField(default="",verbose_name="Nom",max_length=20)
-    prenom = models.CharField(default="",verbose_name="Prénom",max_length=100)
     mairie = models.ForeignKey("Mairie",default = 1,verbose_name="mairie",on_delete=models.SET_DEFAULT)
+    
     def __str__(self):
-        return self.nom
+        return self.user.last_name
 
 
 class Executant(models.Model):
@@ -51,13 +50,13 @@ class Executant(models.Model):
     date_first_creation = models.DateTimeField(auto_now_add=True,verbose_name="Date de parution")
     date_last_modification = models.DateTimeField(auto_now=True,verbose_name="Date de dernière modification")
     identifiant = models.IntegerField(default=0)
-    nom = models.CharField(default="",verbose_name="Nom",max_length=20)
-    prenom = models.CharField(default="",verbose_name="Prénom",max_length=100)
     mairie = models.ForeignKey("Mairie",default = 0,verbose_name="mairie",on_delete=models.SET_DEFAULT)
     maire = models.ForeignKey("Maire",default=1,verbose_name="Maire",on_delete=models.SET_DEFAULT)
-    
+    numero = models.CharField(max_length=15,default="")
+
+
     def __str__(self):
-        return self.nom
+        return self.user.last_name
 class Mairie(models.Model):
     #user = models.OneToOneField(User, on_delete=models.SET_DEFAULT,default = 1)
     date_first_creation = models.DateTimeField(auto_now_add=True,verbose_name="Date de parution")

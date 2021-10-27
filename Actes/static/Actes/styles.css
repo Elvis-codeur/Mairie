@@ -29,3 +29,9 @@
     font-family:Consolas;
     color:cadetblue;
 }
+
+.count_view
+{
+    width: 50%;
+    margin: auto;
+}
