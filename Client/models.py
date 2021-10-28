@@ -40,7 +40,8 @@ class Maire(models.Model):
     date_last_modification = models.DateTimeField(auto_now=True,verbose_name="Date de dernière modification")
     identifiant = models.IntegerField(default=0)
     mairie = models.ForeignKey("Mairie",default = 1,verbose_name="mairie",on_delete=models.SET_DEFAULT)
-    
+    numero = models.CharField(max_length=15,default="")
+    grade = models.CharField(default="Maire",max_length=5)
     def __str__(self):
         return self.user.last_name
 
@@ -53,6 +54,7 @@ class Executant(models.Model):
     mairie = models.ForeignKey("Mairie",default = 0,verbose_name="mairie",on_delete=models.SET_DEFAULT)
     maire = models.ForeignKey("Maire",default=1,verbose_name="Maire",on_delete=models.SET_DEFAULT)
     numero = models.CharField(max_length=15,default="")
+    grade = models.CharField(default="Officier",max_length=8)
 
 
     def __str__(self):
@@ -66,7 +68,7 @@ class Mairie(models.Model):
     addresse = models.CharField(default="",verbose_name="Adresse",max_length=200)
     longitude = models.FloatField(default=0)
     latitude = models.FloatField(default=0)
-
+    
     def __str__(self):
         return self.nom
 

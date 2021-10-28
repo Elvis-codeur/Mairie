@@ -245,16 +245,18 @@ def account_view(request,message):
         return HttpResponse(template.render(context = context,request = request))
 
 
-def maire_account_view(request,message):
+def maire_dashboard(request,message):
+    
     if(request.method == "POST"):
         a = 0
     else:
 
-        
+
         context = {}
         context["message"] = message
-        context["list"] = prepare_maire_html_list("naissance",0,message)
-        
+        context["table_title"] = "Vos  officiers "
+        context["list"] = prepare_maire_html_list("executant",0,message)
+        context["col_head"] = create_col_head(["Nom","Prenom","email","Numéro"])
         template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))
 
@@ -267,7 +269,7 @@ def maire_naissance_view(request,message):
         context = {}
         context["message"] = message
         context["list"] = prepare_maire_html_list("naissance",0,message)
-        
+        context["col_head"] = create_col_head(["Nom","Prenom","Officiers"])
         template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))
 
@@ -280,7 +282,7 @@ def maire_deces_view(request,message):
         context = {}
         context["message"] = message
         context["list"] = prepare_maire_html_list("deces",0,message)
-        
+        context["col_head"] = create_col_head(["Nom","Prenom","Officiers"])
         template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))
 
@@ -293,9 +295,34 @@ def maire_mariage_view(request,message):
         context = {}
         context["message"] = message
         context["list"] = prepare_maire_html_list("mariage",0,message)
-        
+        context["col_head"] = create_col_head(["Nom","Prenom","Officiers"])
         template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))
+
+def maire_account_view(request,message):
+    if(request.method == "POST"):
+        a  = 0
+
+    else:
+        a = parse_message(message)
+        maire = get_maire_by_id(a["maire"])
+        element = generate_compte_view(maire)
+        print(element)
+        l = []
+        for i in list(element.keys()):
+            b = {}
+            b["label"] = i +":"
+            b["f"] = element[i]
+            b["containner"] = "col-12s"
+            l.append(b)
+
+        context = {}
+        context["message"] = message
+        context["form"] = l
+        template = loader.get_template("Actes/maire_compte_vue.html")
+
+        return HttpResponse(template.render(context = context,request = request))
+
 
 def get_element(request,code):
 

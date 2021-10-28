@@ -73,7 +73,7 @@ def prepare_maire_html_list(classname,ma,message):
 
     if(classname == "naissance"):
         tab = NaissanceJournal.objects.filter(maire = get_maire_by_id(ma))
-        print(tab)
+        #print(tab)
         for i in tab:
             p = {}
             p["link"] = reverse("Client:modify_naissance",kwargs ={"message":m})
@@ -83,13 +83,25 @@ def prepare_maire_html_list(classname,ma,message):
             l.append(p)
     elif(classname == "mariage"):
         tab = MariageJournal.objects.filter(maire = get_maire_by_id(ma))
-        print(tab)
+        #print(tab)
         for i in tab:
             p = {}
             p["link"] = reverse("Client:modify_naissance",kwargs ={"message":m})
             p["nom"] = i.naissance.nom
             p["prenom"] = i.naissance.prenom
             p["executant"] = str(i.executant)
+            l.append(p)
+
+    elif(classname == "executant"):
+        m = parse_message(message)
+        tab = Executant.objects.filter(maire = get_maire_by_id(m["maire"]))
+        for i in tab:
+            p = {}
+            #p["link"] = reverse("Client:modify_naissance",kwargs ={"message":m})
+            p["nom"] = i.user.first_name
+            p["prenom"] = i.user.last_name
+            p["executant"] = i.user.email
+            p["numero"] = i.numero
             l.append(p)
     else:
         tab = DecesJournal.objects.filter(maire = get_maire_by_id(ma))
@@ -101,6 +113,8 @@ def prepare_maire_html_list(classname,ma,message):
             p["prenom"] = i.deces.prenom
             p["executant"] = str(i.executant)
             l.append(p)
+
+    
 
     print(l)
     return l
@@ -149,6 +163,7 @@ def generate_compte_view(exectant):
     d["Email"] = info1["email"]
     d["Numero"] = info2["numero"]
     d["Identifiant"]= info2["identifiant"]
+    d["Grade"] = info2["grade"]
     return d
     
     """
@@ -172,3 +187,12 @@ def generate_compte_view(exectant):
     context = {}
     context["form"] = l[:len(l)-1]
     """
+
+def create_col_head(tab):
+    l = []
+    for i in tab:
+        p = {}
+        p["value"] = i
+        l.append(p)
+
+    return l

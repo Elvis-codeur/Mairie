@@ -27,7 +27,7 @@
      </a>
    </li>
    <li>
-     <a href="{% url "Client:officer_account" message %}" class="nav-link text-white">
+     <a href="{% url "Client:maire_account" message %}" class="nav-link text-white">
        <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"/></svg>
        Votre compte
      </a>
@@ -44,33 +44,19 @@
       {% csrf_token %} 
       {{form1.as_p}}
   </div>
+  <h1 style="width: 20%;margin: auto;color:black;font-size:1.6em;">{{table_title}}</h1>
+  <br/>
     <table id="result_list" style="width: 100%;">
     <thead>
     <tr>
     
-    
+    {% for i in col_head %}
     <th scope="col" class="sortable column-le">
        
-         
-       
-       <div class="text"><a href="?o=1">Nom</a></div>
+       <div class="text">{{i.value}}</div>
        <div class="clear"></div>
     </th>
-    <th scope="col" class="sortable column-nom">
-       
-         
-       
-       <div class="text"><a href="?o=2">Prénom</a></div>
-       <div class="clear"></div>
-    </th>
-    <th scope="col" class="sortable column-prenom">
-       
-         
-       
-       <div class="text"><a href="?o=3">Executant</a></div>
-       <div class="clear"></div>
-    </th>
-    </tr>
+    {%endfor%}
     </thead>
     <tbody>
   

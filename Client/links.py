@@ -12,6 +12,7 @@ LINKS["maire dahboard"] = ("maire/dashboard/<str:message>","maire/dashboard/")
 LINKS["maire-naissance"] = ("maire/naissance/<str:message>",r"add/naissance/")
 LINKS["maire-deces"] = ("maire/deces/<str:message>",r"add/deces/")
 LINKS["maire-mariage"] = ("maire/mariage/<str:message>",r"add/mariage/")
+LINKS["maire-compte"] = ("maire/compte_vue/<str:message>","maire/compte_vue/")
 
 # Pour les autres
 LINKS["modify-naissance"] = ("modifier/naissance/<str:message>","modifier/naissance/")
