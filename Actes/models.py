@@ -47,8 +47,10 @@ class ActesNaissanceModel(models.Model):
    dresse_domicile= models.CharField(verbose_name="Dressé domicile",max_length=30)
    dresse_lecture= models.CharField(verbose_name="avec Nous",max_length=200)
 
-   scan_manuscrit = models.FileField(upload_to="actes_naissance_original/",default="")
-
+   transcription = models.FileField(upload_to="actes_naissance_transcription/",default="")
+   original = models.FileField(upload_to="actes_naissance_original/",default="")
+   
+   
    def __str__(self) :
        return self.nom + " " + self.prenom
 
@@ -104,8 +106,9 @@ class ActesDecesModel(models.Model):
     dresse_domicile= models.CharField(verbose_name="Dressé domicile",max_length=30)
     dresse_lecture= models.CharField(verbose_name="avec Nous",max_length=200)
 
-    scan_manuscrit = models.FileField(upload_to="actes_deces_original/",default="")
-
+    transcription = models.FileField(upload_to="actes_deces_transcription/",default="")
+    original = models.FileField(upload_to="actes_deces_original/",default="")
+   
     def __str__(self) :
        return self.nom + " " + self.prenom
     
@@ -173,7 +176,8 @@ class ActesMariageModel(models.Model):
     dresse_lecture= models.CharField(verbose_name= "tous deux témoins majeurs qui lecture faite,"
     " ont signé avec les époux et NOUS",default="",max_length=100)
     
-    scan_manuscrit = models.FileField(upload_to="actes_mariage_original/")
-
+    transcription = models.FileField(upload_to="actes_mariage_transcription/",default="")
+    original = models.FileField(upload_to="actes_mariage_original/",default="")
+   
     def __str__(self) :
        return self.nom1 + " " + self.prenom1 + "|"+ self.nom2 + " "+ self.prenom2

@@ -77,7 +77,8 @@ def save_acte_naissance(dic):
     a = "from Actes.models import ActesNaissanceModel\na = ActesNaissanceModel()\n"
     a = a+ "a.identifiant = ident\n"
     #a = a + str(dic)+"\n"
-    image = dic["scan_manuscrit"]
+    image = dic["transcription"]
+    image1 = dic["original"]
 
     # On génère le code qu'on va exécuter
     keys = list(dic.keys())
@@ -88,7 +89,8 @@ def save_acte_naissance(dic):
         else:
             a = a+"""a.{}="{}"\n""".format(i,dic[i])
 
-    a = a + "a.scan_manuscrit=image\n"
+    a = a + "a.trancription=image\n"
+    a = a + "a.original = image1\n"
     a = a+"a.save()\n"
 
     #print(a)
@@ -102,7 +104,8 @@ def save_acte_deces(dic):
     a = "from Actes.models import ActesDecesModel\na = ActesDecesModel()\n"
     a = a + "a.identifiant = ident\n"      
     #a = a + str(dic)+"\n"
-    image = dic["scan_manuscrit"]
+    image = dic["transcription"]
+    image1 = dic["original"]
 
     # On génère le code qu'on va exécuter
     keys = list(dic.keys())
@@ -113,7 +116,8 @@ def save_acte_deces(dic):
         else:
             a = a+"""a.{}="{}"\n""".format(i,dic[i])
 
-    a = a + "a.scan_manuscrit=image\n"
+    a = a + "a.trancription=image\n"
+    a = a + "a.original = image1\n"
     a = a+"a.save()\n"
 
     #print(a)
@@ -127,7 +131,8 @@ def save_actes_mairiage(dic):
     a = "from Actes.models import ActesMariageModel\na = ActesMariageModel()\n"
     a = a + "a.identifiant = ident\n"      
     #a = a + str(dic)+"\n"
-    image = dic["scan_manuscrit"]
+    image = dic["transcription"]
+    image1 = dic["original"]
 
     # On génère le code qu'on va exécuter
     keys = list(dic.keys())
@@ -138,7 +143,8 @@ def save_actes_mairiage(dic):
         else:
             a = a+"""a.{}="{}"\n""".format(i,dic[i])
 
-    a = a + "a.scan_manuscrit=image\n"
+    a = a + "a.trancription=image\n"
+    a = a + "a.original = image1\n"
     a = a+"a.save()\n"
 
     #print(a)

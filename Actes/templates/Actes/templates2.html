@@ -181,7 +181,7 @@
   </footer>
 </div>
 
-
+      {%block script %}
       <script src="{% static 'Actes/acte_naissance_validation.js' %}">
             
       </script>
@@ -190,5 +190,6 @@
             //alert("done")
             send_info()
       </script>
+      {%endblock%}
   </body>
 </html>

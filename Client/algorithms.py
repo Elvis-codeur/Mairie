@@ -1,5 +1,7 @@
 from django.db import close_old_connections
 from django.http.response import HttpResponse
+
+from Actes.verifications import generate_id
 from .links import LINKS
 
 from django.conf import settings
@@ -54,17 +56,48 @@ def filter_objects(classname,argument):
     if(classname == "naissance"):
         print(ActesNaissanceModel.objects.filter(argument))
 
-def prepare_html_list(classname):
+def prepare_html_list(classname,messsage):
     l=[]
     if(classname == "naissance"):
         tab = ActesNaissanceModel.objects.all()
         for i in tab:
             p = {}
+            a = reverse("Client:modify_naissance",
+                kwargs={"message":messsage + " naissance={}".format(i.identifiant)})
+
+            p["link"]= a
             p['nom'] = i.nom
             p["prenom"] = i.prenom
             p["le"] = i.le 
             l.append(p)
-    #print(l)
+
+    elif(classname == "deces"):
+        tab = ActesDecesModel.objects.all()
+        for i in tab:
+            p = {}
+            a = reverse("Client:modify_deces",
+                kwargs={"message":messsage + " deces={}".format(i.identifiant)})
+
+            p["link"]= a
+            p['nom'] = i.nom
+            p["prenom"] = i.prenom
+            p["le"] = i.le 
+            l.append(p)
+
+    elif(classname == "mariage"):
+        tab = MariageJournal.objects.all()
+        for i in tab:
+            p = {}
+            a = reverse("Client:modify_mariage",
+                kwargs={"message":messsage + " mariage={}".format(i.identifiant)})
+
+            p["link"]= a
+            p['nom'] = i.nom
+            p["prenom"] = i.prenom
+            p["le"] = i.le 
+            l.append(p)
+
+    
     return l
 
 def prepare_maire_html_list(classname,ma,message):
@@ -166,6 +199,27 @@ def generate_compte_view(exectant):
     d["Grade"] = info2["grade"]
     return d
     
+def save_executant(dic,message):
+    a = User()
+    a.username = dic["pseudo"]
+    a.last_name  = dic["nom"]
+    a.first_name = dic["prenom"]
+    a.email = dic["email"]
+    a.set_password(dic["mot_de_passe"])
+    a.is_staff = False
+    a.is_superuser = False
+    a.save()
+
+    b = Executant()
+    b.user = a 
+    b.numero = dic["numero"]
+    b.sexe = dic["sexe"][0]
+    b.identifiant = generate_id(Executant)
+    b.maire = get_maire_by_id(message["maire"])
+    b.mairie = get_mairie_by_id(message["mairie"])
+    b.save()
+
+
     """
     for i in form:
         dic = {}

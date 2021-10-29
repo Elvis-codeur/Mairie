@@ -1,5 +1,5 @@
-from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.http.response import HttpResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render
 
 from django.template import loader
 from Actes.forms import *
@@ -22,7 +22,7 @@ def dashboard(request,message):
         context["form1"] = f1
         context["links"] = create_links(langue="fr")
         context["message"] = message
-        context["list"] = prepare_html_list("naissance")
+        context["list"] = prepare_html_list("naissance",message)
 
         template = loader.get_template("Actes/officiers_vue.html")
         return HttpResponse(template.render(context = context,request = request))
@@ -46,7 +46,7 @@ def add_naissance(request,message):
 
 
             #return HttpResponse(generate_actes_naissance(form.cleaned_data))
-            return HttpResponse("True")
+            return redirect(reverse("Client:dashboard",kwargs={"message":message}))
         else:
             print("LOSE")
         return HttpResponse("none")
@@ -90,7 +90,7 @@ def modify_naissance(request,message):
 
 
             #return HttpResponse(generate_actes_naissance(form.cleaned_data))
-            return HttpResponse("True")
+            return redirect(reverse("Client:dashboard",kwargs={"message":message}))
         else:
             print("LOSE")
         return HttpResponse("none")
@@ -132,17 +132,9 @@ def add_deces(request,message):
             a = parse_message(message)
             a["ident"] = i
             save_journal(a,"deces")
-            #ACTES_DECES_STRING = generate_actes_deces(form.cleaned_data)
-
-            #print("\n\n",ACTES_DECES_STRING)
-
-            #pdf = pdfkit.from_url("http://127.0.0.1:8070/actes/ds",output_path=False)
-
-            #response = HttpResponse(bytes(pdf),content_type='application/pdf')
-            #response['Content-Disposition'] = 'filename=some_file.pdf'
-            return HttpResponse("True")
             
-
+            return redirect(reverse("Client:dashboard",kwargs={"message":message}))
+            
         else:
             print("LOSE")
         return HttpResponse("none")
@@ -172,6 +164,50 @@ def add_deces(request,message):
         return HttpResponse(template.render(context = context,request = request))
 
 
+def modify_deces(request,message):
+    if(request.method == "POST"):
+        form = ActesNaissanceForm(request.POST,request.FILES)
+        #print(request.POST)
+        if(form.is_valid()):
+            #print(form.cleaned_data)
+            i = save_acte_naissance(form.cleaned_data)
+            a = parse_message(message)
+            a["ident"] = i
+            save_journal(a,"naissance")
+            
+
+
+            #return HttpResponse(generate_actes_naissance(form.cleaned_data))
+            return redirect(reverse("Client:dashboard",kwargs={"message":message}))
+        else:
+            print("LOSE")
+        return HttpResponse("none")
+    else:
+        form = ActesNaissanceForm(auto_id=True)
+        l =[]
+        for i in form:
+            dic = {}
+            dic["f"]=i
+            dic["label"] = i.label
+            a = str(i)
+            a = a.split(" ")
+            for kl in a:
+                if("containner" in kl):
+                    c = kl.split("=")[1]
+                    dic["containner"] = c[1:len(c)-1]
+                
+            #print(dic)
+            l.append(dic)
+            
+        context = {}
+        context["form"] =l
+        context["title"] = "Ajouter actes de naissance"
+        context["form_title"] = "ACTE DE NAISSANCE"
+        context["message"] = message
+        template = loader.get_template("Actes/templates2.html")
+        return HttpResponse(template.render(context = context,request = request))
+
+
 def add_mariage(request,message):
     if(request.method == "POST"):
         form = ActesMariageForm(request.POST,request.FILES)
@@ -187,7 +223,7 @@ def add_mariage(request,message):
 
             #response = HttpResponse(bytes(pdf),content_type='application/pdf')
             #response['Content-Disposition'] = 'filename=some_file.pdf'
-            return HttpResponse("True")
+            return redirect(reverse("Client:dashboard",kwargs={"message":message}))
             
 
         else:
@@ -214,6 +250,50 @@ def add_mariage(request,message):
         context["form"] =l
         context["title"] = "Ajouter actes de mariage"
         context["form_title"] = "ACTE DE MARIAGE"
+        context["message"] = message
+        template = loader.get_template("Actes/templates2.html")
+        return HttpResponse(template.render(context = context,request = request))
+
+
+def modify_mariage(request,message):
+    if(request.method == "POST"):
+        form = ActesNaissanceForm(request.POST,request.FILES)
+        #print(request.POST)
+        if(form.is_valid()):
+            #print(form.cleaned_data)
+            i = save_acte_naissance(form.cleaned_data)
+            a = parse_message(message)
+            a["ident"] = i
+            save_journal(a,"naissance")
+            
+
+
+            #return HttpResponse(generate_actes_naissance(form.cleaned_data))
+            return redirect(reverse("Client:dashboard",kwargs={"message":message}))
+        else:
+            print("LOSE")
+        return HttpResponse("none")
+    else:
+        form = ActesNaissanceForm(auto_id=True)
+        l =[]
+        for i in form:
+            dic = {}
+            dic["f"]=i
+            dic["label"] = i.label
+            a = str(i)
+            a = a.split(" ")
+            for kl in a:
+                if("containner" in kl):
+                    c = kl.split("=")[1]
+                    dic["containner"] = c[1:len(c)-1]
+                
+            #print(dic)
+            l.append(dic)
+            
+        context = {}
+        context["form"] =l
+        context["title"] = "Ajouter actes de naissance"
+        context["form_title"] = "ACTE DE NAISSANCE"
         context["message"] = message
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
@@ -329,26 +409,12 @@ def maire_add_officier(request,message):
         form = ExecutantForm(request.POST,request.FILES)
         #print(request.POST)
         if(form.is_valid()):
-            #print(form.cleaned_data)
-            #print(save_acte_naissance(form.cleaned_data))
-            i = save_acte_deces(form.cleaned_data)
-            a = parse_message(message)
-            a["ident"] = i
-            save_journal(a,"deces")
-            #ACTES_DECES_STRING = generate_actes_deces(form.cleaned_data)
 
-            #print("\n\n",ACTES_DECES_STRING)
-
-            #pdf = pdfkit.from_url("http://127.0.0.1:8070/actes/ds",output_path=False)
-
-            #response = HttpResponse(bytes(pdf),content_type='application/pdf')
-            #response['Content-Disposition'] = 'filename=some_file.pdf'
-            return HttpResponse("True")
-            
-
+            save_executant(form.cleaned_data,parse_message(message))
+            return redirect(reverse("Client:maire_account_view",kwargs={"message":message}))
         else:
-            print("LOSE")
-        return HttpResponse("none")
+            print(form.cleaned_data)
+            return redirect(reverse("Client:dashboard",kwargs={"message":message}))
     else:
         form = ExecutantForm(auto_id=True)
         l =[]

@@ -88,7 +88,8 @@ class ActesNaissanceForm(forms.Form):
     dresse_lecture= forms.CharField(label = "qui lecture faite et invité (e) à lire a (ont) signé avec NOUS",
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
 
-    scan_manuscrit = forms.FileField()
+    transcription = forms.FileField(label= "Transciption")
+    original = forms.FileField(label = "Original")
 
 
 
@@ -173,7 +174,9 @@ class ActesDecesForm(forms.Form):
     dresse_lecture= forms.CharField(label = "qui lecture faite et invité (e) à lire a (ont) signé avec NOUS",
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
 
-    scan_manuscrit = forms.FileField()
+    transcription = forms.FileField(label= "Transciption")
+    original = forms.FileField(label = "Original")
+
 
 
 class ActesMariageForm(forms.Form):
@@ -262,4 +265,6 @@ class ActesMariageForm(forms.Form):
     " ont signé avec les époux et NOUS",
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
 
-    scan_manuscrit = forms.FileField()
+    transcription = forms.FileField(label= "Transciption")
+    original = forms.FileField(label = "Original")
+
