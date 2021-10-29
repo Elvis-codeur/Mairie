@@ -257,6 +257,7 @@ def maire_dashboard(request,message):
         context["table_title"] = "Vos  officiers "
         context["list"] = prepare_maire_html_list("executant",0,message)
         context["col_head"] = create_col_head(["Nom","Prenom","email","Numéro"])
+        context["dashboard"] = "True"
         template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))
 
@@ -323,6 +324,57 @@ def maire_account_view(request,message):
 
         return HttpResponse(template.render(context = context,request = request))
 
+def maire_add_officier(request,message):
+    if(request.method == "POST"):
+        form = ExecutantForm(request.POST,request.FILES)
+        #print(request.POST)
+        if(form.is_valid()):
+            #print(form.cleaned_data)
+            #print(save_acte_naissance(form.cleaned_data))
+            i = save_acte_deces(form.cleaned_data)
+            a = parse_message(message)
+            a["ident"] = i
+            save_journal(a,"deces")
+            #ACTES_DECES_STRING = generate_actes_deces(form.cleaned_data)
+
+            #print("\n\n",ACTES_DECES_STRING)
+
+            #pdf = pdfkit.from_url("http://127.0.0.1:8070/actes/ds",output_path=False)
+
+            #response = HttpResponse(bytes(pdf),content_type='application/pdf')
+            #response['Content-Disposition'] = 'filename=some_file.pdf'
+            return HttpResponse("True")
+            
+
+        else:
+            print("LOSE")
+        return HttpResponse("none")
+    else:
+        form = ExecutantForm(auto_id=True)
+        l =[]
+        for i in form:
+            dic = {}
+            dic["f"]=i
+            dic["label"] = i.label
+            a = str(i)
+            a = a.split(" ")
+            for kl in a:
+                if("containner" in kl):
+                    c = kl.split("=")[1]
+                    dic["containner"] = c[1:len(c)-1]
+                
+            #print(dic)
+            l.append(dic)
+            
+        context = {}
+        context["form"] =l
+        context["title"] = "Ajouter un officiers"
+        context["form_title"] = "OFFICIERS"
+        context["message"] = message
+        context["dashboard"] = "True"
+        template = loader.get_template("Actes/maire_add_template.html")
+        return HttpResponse(template.render(context = context,request = request))
+    
 
 def get_element(request,code):
 

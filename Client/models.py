@@ -3,7 +3,6 @@ from django.db.models.base import Model
 from django.contrib.auth.models import User
 from Actes.models import *
 
-
 class LoginJournal(models.Model):
     date_first_creation = models.DateTimeField(auto_now_add=True,verbose_name="Date de parution")
     mairie = models.ForeignKey("Mairie",default = 1,verbose_name="mairie",on_delete=models.SET_DEFAULT)
@@ -42,6 +41,7 @@ class Maire(models.Model):
     mairie = models.ForeignKey("Mairie",default = 1,verbose_name="mairie",on_delete=models.SET_DEFAULT)
     numero = models.CharField(max_length=15,default="")
     grade = models.CharField(default="Maire",max_length=5)
+    sexe = models.CharField(max_length=10,default="")
     def __str__(self):
         return self.user.last_name
 
@@ -55,6 +55,7 @@ class Executant(models.Model):
     maire = models.ForeignKey("Maire",default=1,verbose_name="Maire",on_delete=models.SET_DEFAULT)
     numero = models.CharField(max_length=15,default="")
     grade = models.CharField(default="Officier",max_length=8)
+    sexe = models.CharField(max_length=10,default="")
 
 
     def __str__(self):

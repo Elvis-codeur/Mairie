@@ -32,3 +32,67 @@ class ActesChoiceForm(forms.Form):
                                           widget=forms.Select(attrs={'class': '',"id":"catego",
                                           "onchange":"change()"}))
     
+
+class ExecutantForm(forms.Form):
+
+   nom = forms.CharField(max_length = 30,
+                         widget=forms.TextInput(attrs={"class":"form-control",
+                         "containner":"col-12s"}))
+    
+   prenom = forms.CharField(max_length = 30,
+                            widget=forms.TextInput(attrs={"class":"form-control",
+                            "containner":"col-12s"}))                                 
+
+   pseudo = forms.CharField(max_length = 20,min_length=5,required = True,
+                  widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+    
+   sexe = forms.MultipleChoiceField(
+        required=True,
+        widget=forms.CheckboxSelectMultiple,
+        choices=[('homme','Homme'),
+                 ('femme','Femme'),]
+                 
+    )
+    
+   mot_de_passe = forms.CharField(max_length = 30,min_length=6,
+                                    widget=forms.TextInput(attrs={"class":"form-control",
+                                    "type":"Password","containner":"col-12s"}),required = True)
+    
+   numero = forms.CharField(max_length = 30,widget=forms.TextInput(attrs={"class":"form-control",
+   "containner":"col-12s"}))
+
+   email = forms.EmailField(widget=forms.EmailInput(attrs={"class":"form-control",
+   "containner":"col-12s"}))
+   
+
+class MaireForm(forms.Form):
+
+   nom = forms.CharField(max_length = 30,
+                         widget=forms.TextInput(attrs={"class":"form-control",
+                         "containner":"col-12s"}))
+    
+   prenom = forms.CharField(max_length = 30,
+                            widget=forms.TextInput(attrs={"class":"form-control",
+                            "containner":"col-12s"}))                                 
+
+   pseudo = forms.CharField(max_length = 20,min_length=5,required = True,
+                  widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+    
+   sexe = forms.MultipleChoiceField(
+        required=True,
+        widget=forms.CheckboxSelectMultiple,
+        choices=[('homme','Homme'),
+                 ('femme','Femme'),]
+                 
+    )
+    
+   mot_de_passe = forms.CharField(max_length = 30,min_length=6,
+                                    widget=forms.TextInput(attrs={"class":"form-control",
+                                    "type":"Password","containner":"col-12s"}),required = True)
+    
+   numero = forms.CharField(max_length = 30,widget=forms.TextInput(attrs={"class":"form-control",
+   "containner":"col-12s"}))
+
+   email = forms.EmailField(widget=forms.EmailInput(attrs={"class":"form-control",
+   "containner":"col-12s"}))
+   

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin.helpers import AdminErrorList
 from .models import *
 
 class MaireAdmin(admin.ModelAdmin):
@@ -28,6 +29,9 @@ class ExecutantAdmin(admin.ModelAdmin):
 
     prenom.short_description = "Prenom"
     nom.short_description = "Nom"
+
+class MyUserAdmin(admin.ModelAdmin):
+    list_display = ("last_name","first_name","username","email")
 
 class NaissanceJournalAdmin(admin.ModelAdmin):
     list_display = ("date_first_creation","mairie","maire","executant","naissance")
