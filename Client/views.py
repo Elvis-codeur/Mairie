@@ -22,7 +22,7 @@ def dashboard(request,message):
         context["form1"] = f1
         context["links"] = create_links(langue="fr")
         context["message"] = message
-        context["list"] = prepare_html_list("naissance",message)
+        context["list"] = prepare_html_list("mariage",message)
 
         template = loader.get_template("Actes/officiers_vue.html")
         return HttpResponse(template.render(context = context,request = request))
@@ -82,7 +82,7 @@ def modify_naissance(request,message):
         #print(request.POST)
         if(form.is_valid()):
             #print(form.cleaned_data)
-            i = save_acte_naissance(form.cleaned_data)
+            i = save_acte_naissance(form.cleaned_data,modify=True,message=message)
             a = parse_message(message)
             a["ident"] = i
             save_journal(a,"naissance")
@@ -96,11 +96,19 @@ def modify_naissance(request,message):
         return HttpResponse("none")
     else:
         form = ActesNaissanceForm(auto_id=True)
+        me = parse_message(message)
+
+        model = get_actesnaissance_by_id(me["naissance"])
+        kl = model.__dict__
+
         l =[]
+        compteur = 0
         for i in form:
+            compteur += 1
             dic = {}
-            dic["f"]=i
+            dic["f"]= i
             dic["label"] = i.label
+
             a = str(i)
             a = a.split(" ")
             for kl in a:
@@ -441,6 +449,134 @@ def maire_add_officier(request,message):
         template = loader.get_template("Actes/maire_add_template.html")
         return HttpResponse(template.render(context = context,request = request))
     
+
+def officier_naissance_vue(request,message):
+    """
+    Cette méthode génère les actes de décès à l'enrégistrement
+    """
+    template = loader.get_template("Actes/generer_acte_naissance.html")
+    form = ActesNaissanceForm(auto_id=True)
+    me = parse_message(message)
+
+    dic_ = get_actesnaissance_by_id(me["naissance"]).__dict__
+    l =[]
+    compteur = 1
+    dic_keys = list(dic_.keys())
+    #print(dic_)
+
+    for i in form:
+        if(1):
+
+            dic = {}
+            dic["f"]=i.label
+            dic["label"] = i.label
+            dic["label_value"] = dic_[dic_keys[compteur]]
+            a = str(i)
+            a = a.split(" ")
+            for kl in a:
+                if("containner" in kl):
+                    c = kl.split("=")[1]
+                    dic["containner"] = c[1:len(c)-1]
+                
+            #print(dic)
+            l.append(dic)
+            compteur += 1
+
+        else:
+            a = 0
+            
+
+
+    context = {}
+    context["form"] = l[:len(l)-1]
+    
+    return HttpResponse(template.render(context))
+
+def officier_deces_vue(request,message):
+    """
+    Cette méthode génère les actes de décès à l'enrégistrement
+    """
+    template = loader.get_template("Actes/generer_acte_naissance.html")
+    form = ActesDecesForm(auto_id=True)
+    me = parse_message(message)
+
+    dic_ = get_actesdeces_by_id(me["deces"]).__dict__
+    l =[]
+    compteur = 1
+    dic_keys = list(dic_.keys())
+    #print(dic_)
+
+    for i in form:
+        if(1):
+
+            dic = {}
+            dic["f"]=i.label
+            dic["label"] = i.label
+            dic["label_value"] = dic_[dic_keys[compteur]]
+            a = str(i)
+            a = a.split(" ")
+            for kl in a:
+                if("containner" in kl):
+                    c = kl.split("=")[1]
+                    dic["containner"] = c[1:len(c)-1]
+                
+            #print(dic)
+            l.append(dic)
+            compteur += 1
+
+        else:
+            a = 0
+            
+
+
+    context = {}
+    context["form"] = l[:len(l)-1]
+    
+    return HttpResponse(template.render(context))
+
+
+def officier_mariage_vue(request,message):
+    """
+    Cette méthode génère les actes de décès à l'enrégistrement
+    """
+    template = loader.get_template("Actes/generer_acte_naissance.html")
+    form = ActesMariageForm(auto_id=True)
+    me = parse_message(message)
+
+    dic_ = get_actesmariage_by_id(me["mariage"]).__dict__
+    l =[]
+    compteur = 1
+    dic_keys = list(dic_.keys())
+    #print(dic_)
+
+    for i in form:
+        if(1):
+
+            dic = {}
+            dic["f"]=i.label
+            dic["label"] = i.label
+            dic["label_value"] = dic_[dic_keys[compteur]]
+            a = str(i)
+            a = a.split(" ")
+            for kl in a:
+                if("containner" in kl):
+                    c = kl.split("=")[1]
+                    dic["containner"] = c[1:len(c)-1]
+                
+            #print(dic)
+            l.append(dic)
+            compteur += 1
+
+        else:
+            a = 0
+            
+
+
+    context = {}
+    context["form"] = l[:len(l)-1]
+    
+    return HttpResponse(template.render(context))
+
 
 def get_element(request,code):
 

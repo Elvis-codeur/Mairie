@@ -3,9 +3,6 @@ from django.db import models
 
 class ActesNaissanceModel(models.Model):
 
-   identifiant = models.IntegerField(default=0)
-
-
    le = models.CharField(verbose_name= "Le",max_length=300)
    heure = models.IntegerField(verbose_name="heure(s)",default=0)
    minute = models.IntegerField(verbose_name="minute(s)",default=0)
@@ -49,14 +46,13 @@ class ActesNaissanceModel(models.Model):
 
    transcription = models.FileField(upload_to="actes_naissance_transcription/",default="")
    original = models.FileField(upload_to="actes_naissance_original/",default="")
-   
+   identifiant = models.IntegerField(default=0)
    
    def __str__(self) :
        return self.nom + " " + self.prenom
 
 
 class ActesDecesModel(models.Model):
-    identifiant = models.IntegerField(default=0)
     # Première parties
     le = models.CharField(verbose_name="Le",max_length=300,default="")
     
@@ -108,13 +104,14 @@ class ActesDecesModel(models.Model):
 
     transcription = models.FileField(upload_to="actes_deces_transcription/",default="")
     original = models.FileField(upload_to="actes_deces_original/",default="")
+    identifiant = models.IntegerField(default=0)
    
     def __str__(self) :
        return self.nom + " " + self.prenom
     
 
 class ActesMariageModel(models.Model):
-    identifiant = models.IntegerField(default=0)
+    
     # Première parties
     le = models.CharField(verbose_name= "Le",default="",max_length=300)
     
@@ -178,6 +175,6 @@ class ActesMariageModel(models.Model):
     
     transcription = models.FileField(upload_to="actes_mariage_transcription/",default="")
     original = models.FileField(upload_to="actes_mariage_original/",default="")
-   
+    identifiant = models.IntegerField(default=0)
     def __str__(self) :
        return self.nom1 + " " + self.prenom1 + "|"+ self.nom2 + " "+ self.prenom2

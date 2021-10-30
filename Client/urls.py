@@ -22,6 +22,9 @@ urlpatterns = [
     path(LINKS["modify-naissance"][0],views.modify_naissance,name="modify_naissance"),
     path(LINKS["modify-deces"][0],views.modify_deces,name="modify_deces"),
     path(LINKS["modify-mariage"][0],views.modify_mariage,name="modify_mariage"),
-    
+
+    path(LINKS["view-naissance"][0],views.officier_naissance_vue,name = "officier_naissance_vue"),
+    path(LINKS["view-deces"][0],views.officier_deces_vue,name = "officier_deces_vue"),
+    path(LINKS["view-mariage"][0],views.officier_mariage_vue,name = "officier_mariage_vue"),
     path("get/<str:code>",views.get_element,name = "get_element"),
 ]
