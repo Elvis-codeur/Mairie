@@ -22,7 +22,7 @@ function send_info()
     datas = document.getElementsByTagName("input")
     for(var i = 0;i<datas.length;i++)
     {
-        if(datas[i].type != "hidden")
+        if(datas[i].type != "hidden" && datas[i].type != 'submit')
         {
             datas[i].value = 1
         }

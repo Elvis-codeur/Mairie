@@ -1,0 +1,4 @@
+*
+.subckt AOP 1 2 3 4 5 
+E1 2 GND 1 2 1e15
+.ends AOP

@@ -128,6 +128,10 @@
     <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
       <a type="button" class="btn btn-primary" href = "{% url "Client:maire_add_officier" message %}" style="color:white">Ajouter un officier</a>
     </div>
+    {%elif acte_modification %}
+    <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+      <a type="button" class="btn btn-primary" href = "{{acte_mod_link}}" style="color:white">Modifier cet acte de {{acte}}</a>
+    </div>
     {%else%} 
     <form class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
       <input type="search" class="form-control" placeholder="Chercher ..." aria-label="Search">

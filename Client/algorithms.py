@@ -441,6 +441,151 @@ def save_actes_mairiage(dic,modify=False,message = ""):
     return ident
 
 
+def generate_acte_naissance_fromdb(message):
+    form = ActesNaissanceForm(auto_id=True)
+    me = parse_message(message)
+    naissance = get_actesnaissance_by_id(me["naissance"])
+    dic_ = naissance.__dict__
+    # On prend les différens labels
+    form_list  = [i.label for i in form]
+    model_list = []
+    
+    # On récupère seleument les infos utiles des db
+    for i in list(dic_.keys())[2:len(dic_.keys())-1]:
+        model_list.append(i)
+
+    compteur = 0
+    l = []
+    print(model_list)
+    # On laisse les images pour un traitement spécial
+    for i in form:
+        if(compteur<25):
+
+            dic = {}
+            dic["f"]= " : "+str(dic_[model_list[compteur]])
+            dic["label"] = i.label
+            dic["label_value"] = dic_[model_list[compteur]]
+            a = str(i)
+            a = a.split(" ")
+            for kl in a:
+                if("containner" in kl):
+                    c = kl.split("=")[1]
+                    dic["containner"] = c[1:len(c)-1]
+                
+            #print(dic)
+            l.append(dic)
+            compteur += 1
+
+        else:
+            break
+
+        #dic = {}
+        #dic["f"] = '<a href = "{}" > </a>'.format(naissance.original.url)
+        #dic["label"] = "Original"
+        #dic["label_value"] = str(naissance.original.url)
+
+    return l
+
+
+def generate_acte_deces_fromdb(message):
+    form = ActesDecesForm(auto_id=True)
+    me = parse_message(message)
+    deces = get_actesdeces_by_id(me["deces"])
+    dic_ = deces.__dict__
+    # On prend les différens labels
+    form_list  = [i.label for i in form]
+    model_list = []
+    
+    # On récupère seleument les infos utiles des db
+    for i in list(dic_.keys())[2:len(dic_.keys())-1]:
+        model_list.append(i)
+
+    compteur = 0
+    l = []
+    #print(len(form_list),"\n\n")
+    #print(len(model_list))
+    
+    
+    # On laisse les images pour un traitement spécial
+    for i in form:
+        if(compteur<25):
+
+            dic = {}
+            dic["f"]= " : "+str(dic_[model_list[compteur]])
+            dic["label"] = i.label
+            dic["label_value"] = dic_[model_list[compteur]]
+            a = str(i)
+            a = a.split(" ")
+            for kl in a:
+                if("containner" in kl):
+                    c = kl.split("=")[1]
+                    dic["containner"] = c[1:len(c)-1]
+                
+            #print(dic)
+            l.append(dic)
+            compteur += 1
+
+        else:
+            break
+
+        #dic = {}
+        #dic["f"] = '<a href = "{}" > </a>'.format(naissance.original.url)
+        #dic["label"] = "Original"
+        #dic["label_value"] = str(naissance.original.url)
+        
+    return l
+
+def generate_acte_mariage_fromdb(message):
+    form = ActesMariageForm(auto_id=True)
+    me = parse_message(message)
+    deces = get_actesmariage_by_id(me["mariage"])
+    dic_ = deces.__dict__
+    # On prend les différens labels
+    form_list  = [i.label for i in form]
+    model_list = []
+    
+    # On récupère seleument les infos utiles des db
+    for i in list(dic_.keys())[2:len(dic_.keys())-1]:
+        model_list.append(i)
+
+    compteur = 0
+    l = []
+    #print(form_list,"\n\n")
+    #print(model_list)
+    
+    
+    # On laisse les images pour un traitement spécial
+    for i in form:
+        if(compteur<25):
+
+            dic = {}
+            dic["f"]= str(dic_[model_list[compteur]])
+            dic["label"] = i.label
+            dic["label_value"] = dic_[model_list[compteur]]
+            a = str(i)
+            a = a.split(" ")
+            for kl in a:
+                if("containner" in kl):
+                    c = kl.split("=")[1]
+                    dic["containner"] = c[1:len(c)-1]
+                
+            #print(dic)
+            l.append(dic)
+            compteur += 1
+
+        else:
+            break
+
+        #dic = {}
+        #dic["f"] = '<a href = "{}" > </a>'.format(naissance.original.url)
+        #dic["label"] = "Original"
+        #dic["label_value"] = str(naissance.original.url)
+        
+    return l
+
+
+
+
 def generate_id(model):
     z = model.objects.all()
     if(len(z) == 0):

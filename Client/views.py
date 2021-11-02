@@ -1,4 +1,5 @@
-from django.http.response import HttpResponse, HttpResponseRedirect
+from django.db.models.base import ModelStateFieldsCacheDescriptor
+from django.http.response import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import redirect, render
 
 from django.template import loader
@@ -451,132 +452,91 @@ def maire_add_officier(request,message):
     
 
 def officier_naissance_vue(request,message):
-    """
-    Cette méthode génère les actes de décès à l'enrégistrement
-    """
-    template = loader.get_template("Actes/generer_acte_naissance.html")
-    form = ActesNaissanceForm(auto_id=True)
-    me = parse_message(message)
-
-    dic_ = get_actesnaissance_by_id(me["naissance"]).__dict__
-    l =[]
-    compteur = 1
-    dic_keys = list(dic_.keys())
-    #print(dic_)
-
-    for i in form:
-        if(1):
-
-            dic = {}
-            dic["f"]=i.label
-            dic["label"] = i.label
-            dic["label_value"] = dic_[dic_keys[compteur]]
-            a = str(i)
-            a = a.split(" ")
-            for kl in a:
-                if("containner" in kl):
-                    c = kl.split("=")[1]
-                    dic["containner"] = c[1:len(c)-1]
-                
-            #print(dic)
-            l.append(dic)
-            compteur += 1
-
-        else:
-            a = 0
-            
 
 
+    template = loader.get_template("Actes/acte_vue.html")
+    l = generate_acte_naissance_fromdb(message)
     context = {}
-    context["form"] = l[:len(l)-1]
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Ajouter un officiers"
+    context["form_title"] = "NAISSANCE"
+    context["acte_modification"] = "True"
+    context["acte"] = "naissance"
+    context["acte_mod_link"] = reverse("Client:modify_naissance",kwargs={"message":message})
     
+    #Pour les fichiers
+    context["no_print"] ="True"
+    me = parse_message(message)
+    m = get_actesmariage_by_id(me["naissance"])
+    context["original_url"] = m.original.url
+    context["tran_url"] = m.transcription.url
+    #Pour l'impression
+    context["print_link"] = reverse("Client:print_naissance",kwargs={"message":message})
+
+    
+    context["message"] = message
     return HttpResponse(template.render(context))
 
 def officier_deces_vue(request,message):
-    """
-    Cette méthode génère les actes de décès à l'enrégistrement
-    """
-    template = loader.get_template("Actes/generer_acte_naissance.html")
-    form = ActesDecesForm(auto_id=True)
-    me = parse_message(message)
+    """Cette méthode permet à l'officier de voir un acte de deces"""
 
-    dic_ = get_actesdeces_by_id(me["deces"]).__dict__
-    l =[]
-    compteur = 1
-    dic_keys = list(dic_.keys())
-    #print(dic_)
-
-    for i in form:
-        if(1):
-
-            dic = {}
-            dic["f"]=i.label
-            dic["label"] = i.label
-            dic["label_value"] = dic_[dic_keys[compteur]]
-            a = str(i)
-            a = a.split(" ")
-            for kl in a:
-                if("containner" in kl):
-                    c = kl.split("=")[1]
-                    dic["containner"] = c[1:len(c)-1]
-                
-            #print(dic)
-            l.append(dic)
-            compteur += 1
-
-        else:
-            a = 0
-            
-
-
+    template = loader.get_template("Actes/acte_vue.html")
+    l = generate_acte_deces_fromdb(message)
     context = {}
-    context["form"] = l[:len(l)-1]
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Ajouter un officiers"
+    context["form_title"] = "DECES"
+    context["acte_modification"] = "True"
+    context["acte"] = "deces"
+    context["acte_mod_link"] = reverse("Client:modify_deces",kwargs={"message":message})
     
+    #Pour les fichiers
+    context["no_print"] ="True"
+    me = parse_message(message)
+    m = get_actesmariage_by_id(me["deces"])
+    context["original_url"] = m.original.url
+    context["tran_url"] = m.transcription.url
+    #Pour l'impression
+    context["print_link"] = reverse("Client:print_deces",kwargs={"message":message})
+
+    context["message"] = message
     return HttpResponse(template.render(context))
-
-
+    
 def officier_mariage_vue(request,message):
-    """
-    Cette méthode génère les actes de décès à l'enrégistrement
-    """
-    template = loader.get_template("Actes/generer_acte_naissance.html")
-    form = ActesMariageForm(auto_id=True)
-    me = parse_message(message)
+    """Cette méthode permet à l'officier de voir les actes de mariage"""
 
-    dic_ = get_actesmariage_by_id(me["mariage"]).__dict__
-    l =[]
-    compteur = 1
-    dic_keys = list(dic_.keys())
-    #print(dic_)
-
-    for i in form:
-        if(1):
-
-            dic = {}
-            dic["f"]=i.label
-            dic["label"] = i.label
-            dic["label_value"] = dic_[dic_keys[compteur]]
-            a = str(i)
-            a = a.split(" ")
-            for kl in a:
-                if("containner" in kl):
-                    c = kl.split("=")[1]
-                    dic["containner"] = c[1:len(c)-1]
-                
-            #print(dic)
-            l.append(dic)
-            compteur += 1
-
-        else:
-            a = 0
-            
-
-
+    template = loader.get_template("Actes/acte_vue.html")
+    l = generate_acte_mariage_fromdb(message)
     context = {}
-    context["form"] = l[:len(l)-1]
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Voir un acte de mariage"
+    context["form_title"] = "MARIAGE"
+    #Pour la modification
+    context["acte_modification"] = "True"
+    context["acte"] = "mariage"
+    context["acte_mod_link"] = reverse("Client:modify_mariage",kwargs={"message":message})
     
-    return HttpResponse(template.render(context))
+    #Pour les fichiers
+    context["no_print"] ="True"
+    me = parse_message(message)
+    m = get_actesmariage_by_id(me["mariage"])
+    context["original_url"] = m.original.url
+    context["tran_url"] = m.transcription.url
+    #Pour l'impression
+    context["print_link"] = reverse("Client:print_mariage",kwargs={"message":message})
 
+    context["message"] = message
+    return HttpResponse(template.render(context))
+    
+
+def print_naissance(request,message):
+    return HttpResponse("naissance")
+
+def print_deces(request,message):
+    return HttpResponse("deces")
+
+def print_mariage(request,message):
+    return HttpResponse("mariage")
 
 def get_element(request,code):
 

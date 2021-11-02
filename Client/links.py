@@ -15,12 +15,17 @@ LINKS["maire-mariage"] = ("maire/mariage/<str:message>",r"add/mariage/")
 LINKS["maire-compte"] = ("maire/compte_vue/<str:message>","maire/compte_vue/")
 LINKS["maire-add-off"] = ("maire/add/officier/<str:message>",)
 
-# Pour les autres
+# Pour les modifications
 LINKS["modify-naissance"] = ("officier/modifier/naissance/<str:message>","modifier/naissance/")
 LINKS["modify-deces"] = ("officier/modifier/deces/<str:message>","officier/modifier/deces/")
 LINKS["modify-mariage"] = ("officer/modifier/mariage/<str:message>","officer/modifier/mariage/")
 
-
+# Pour voir
 LINKS["view-naissance"] = ("officier/voir/naissance/<str:message>",)
 LINKS["view-deces"] = ("officier/voir/deces/<str:message>",)
 LINKS["view-mariage"] = ("officier/voir/mariage/<str:message>",)
+
+# Pour imprimer
+LINKS["print-naissance"] = ("officier/imprimer/naissance/<str:message>",)
+LINKS["print-deces"] = ("officier/imprimer/deces/<str:message>",)
+LINKS["print-mariage"] = ("officier/imprimer/mariage/<str:message>",)

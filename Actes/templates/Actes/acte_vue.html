@@ -1,0 +1,44 @@
+{%extends "Actes/templates2.html" %}
+
+{%block main%} 
+<main style="width: 80%;margin-left: auto;">
+    
+    <div class="col-md-7 col-lg-8">
+      <p style="width: 50%;margin:auto;text-decoration: underline;font-size: xx-large;">{{form_title}}</p>
+        <div class="row g-3">
+            {% for k in form %}
+            <div class="{{k.containner}}">
+                <label for="{{k.label}}" class="form-label">{{k.label}}</label>
+                {{k.f}}
+               <div class="invalid-feedback">
+                  
+                </div>
+              </div>
+              {% endfor %}
+              
+
+              {% if no_print %}
+              <h3>Les fichiers enrégistrés</h3>
+              <div class="col-sm-6" >
+                <a href="{{original_url}}" class = "btn btn-lg btn-primary">Original</a>
+              </div>
+              
+              <div class="col-sm-6" >
+                <a href="{{tran_url}}" class = "btn btn-lg btn-primary">Transcription</a>
+              </div>
+              {%endif%}
+
+
+            <a href="{{print_link}}" class = "btn btn-lg btn-primary" name ="subm">Imprimer</a>
+                
+        </div>
+      
+    </div>
+
+</main>
+
+{%endblock%}
+
+{%block script %}
+
+{%endblock%}
