@@ -1,0 +1,145 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="AGBALENYO Komi Barthélémy Elvis">
+    <meta name="generator" content="Hugo 0.87.0">
+    <title>{% block title %} Template actes Mairie {%endblock %}</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/checkout/">
+
+    
+
+    <!-- Bootstrap core CSS 
+    <link href="{% static 'Actes/sidebars.css' %}" rel="stylesheet">
+    <link href="{% static 'Actes/base.css' %}" rel="stylesheet">
+    <link href="{% static 'Actes/changelists.css' %}" rel="stylesheet">
+    <link href="{% static 'Actes/form-validation.css' %}" rel="stylesheet">
+    <link href="{% static 'Actes/headers.css' %}" rel="stylesheet">
+    
+    -->
+    <link href="{% static 'Actes/assets/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    
+    <link href="{% static 'Actes/styles.css' %}" rel="stylesheet">
+    
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    
+    <!-- Custom styles for this template class="row g-5"  class="container" class="bg-light"-->
+    <link href="{% static 'Actes/form-validation.css' %}" rel="stylesheet">
+  </head>
+  <body style="background-color: beige;">
+    <br/>
+    <br/>
+    <main style="width: 80%;margin-left: auto;">
+        <div class="col-md-7 col-lg-8">
+              <div class="row g-3">
+
+                <div class="col-sm-6">
+                    REGION MARITIME
+                    <br/>
+                    <br/>
+
+                    <p style="width: 50%;">
+                        COMMUNE DU GOLFE 1 ETAT CIVIL ETRANGER
+                    </p>
+                    
+                </div>
+    
+                <div class="col-sm-6">
+                    REPUBLIQUE TOGOLAISE
+                    <p style="width: 90%;margin: auto;font-size: 0.8em;">
+                    TRAVAIL-LIBERTE-PATRIE</p>
+                    <br/>
+                    <p>Registre N° {{re.registre_numero}}</p>
+                    <p>Feuillet N° {{re.feuillet_numero}}</p>
+                    <p>Volet N°  {{re.volet_numero}}</p>
+                    <p>Année N°  {{re.annee}}</p>
+                </div>
+
+              </div>
+        </div>
+        
+       
+        <br/><br/>
+
+        <div class="col-md-7 col-lg-8">
+          <p style="width: 70%;margin: auto; text-decoration: underline;font-size: xx-large;">{{form_title}} {{re.acte_numero}}</p>
+            <div class="row g-3">
+                <br/><br/>
+
+                {% for k in form %}
+                <div class="{{k.containner}}">
+                    <label for="{{k.label}}" class="form-label">{{k.label}}</label>
+                    {{k.f}}
+                   <div class="invalid-feedback">
+                      
+                    </div>
+                  </div>
+                  {% endfor %}
+                    
+            </div>
+          
+        </div>
+        <br/><br/>
+
+        <div class="col-md-7 col-lg-8">
+            <div class="row g-3">
+                <div class="col-sm-6"> 
+                    <p style="width: 50%;font-weight: bold;">
+                        Sceau et Signature de l'Officier de l'Etat civil</p>
+                </div>
+
+                <div class="col-sm-6">
+                     <p style="width: 50%;font-weight: bold;">
+                        Signatures
+                    </p>
+
+                    <div class="col-md-7 col-lg-8">
+                        <div class="row g-3">
+                    <div class="col-sm-6">Epoux.........</div>
+                    <div class="col-sm-6">Témoin.........</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7 col-lg-8">
+                        <div class="row g-3">
+                    <div class="col-sm-6">Epouse.........</div>
+                    <div class="col-sm-6">Témoin.........</div>
+                        </div>
+                    </div>
+
+                    
+                
+                    </div>
+            </div>
+        </div>
+
+    
+    </main>
+    
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+  </body>
+
+</html>

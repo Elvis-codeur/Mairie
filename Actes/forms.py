@@ -7,6 +7,24 @@ from Actes.models import *
 
 
 class ActesNaissanceForm(forms.Form):
+    
+    registre_numero = forms.IntegerField(label = "Régistre N° ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    feillet_numero = forms.IntegerField(label= "Feuillet N° ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    volet_numero = forms.IntegerField(label = "Volet N° ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    annee = forms.IntegerField(label = "Année",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    acte_numero = forms.IntegerField(label = "Numero de l'acte : ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+
+
     le = forms.CharField(label = "Le",
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
 
@@ -94,6 +112,24 @@ class ActesNaissanceForm(forms.Form):
 
 
 class ActesDecesForm(forms.Form):
+
+    registre_numero = forms.IntegerField(label = "Régistre N° ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    feillet_numero = forms.IntegerField(label= "Feuillet N° ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    volet_numero = forms.IntegerField(label = "Volet N° ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    annee = forms.IntegerField(label = "Année",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    acte_numero = forms.IntegerField(label = "Numero de l'acte : ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+
+
     # Première parties
     le = forms.CharField(label = "Le",
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
@@ -180,6 +216,24 @@ class ActesDecesForm(forms.Form):
 
 
 class ActesMariageForm(forms.Form):
+
+    registre_numero = forms.IntegerField(label = "Régistre N° ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    feillet_numero = forms.IntegerField(label= "Feuillet N° ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    volet_numero = forms.IntegerField(label = "Volet N° ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    annee = forms.IntegerField(label = "Année",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+    acte_numero = forms.IntegerField(label = "Numero de l'acte : ",
+    widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
+
+
+
     # Première parties
     le = forms.CharField(label = "Le",
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))

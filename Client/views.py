@@ -529,14 +529,57 @@ def officier_mariage_vue(request,message):
     return HttpResponse(template.render(context))
     
 
+# Pour imprimer #######################
 def print_naissance(request,message):
-    return HttpResponse("naissance")
+    """Cette méthode permet à l'officier d'imprimer les actes de mariage"""
+
+    l = generate_acte_naissance_fromdb(message)
+    context = {}
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Imprimer un acte de naissance"
+    context["form_title"] = "ACTE DE NAISSANCE   N°"
+    context["message"] = message
+    template = loader.get_template("Actes/acte_print.html")
+    return HttpResponse(template.render(context))
+
 
 def print_deces(request,message):
-    return HttpResponse("deces")
+    """Cette méthode permet à l'officier d'imprimer les actes deces"""
+
+    l = generate_acte_deces_fromdb(message)
+    context = {}
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Imprimer un acte de naissance"
+    context["form_title"] = "ACTE DE DECES   N°"
+    context["message"] = message
+    template = loader.get_template("Actes/acte_print.html")
+    return HttpResponse(template.render(context))
+
 
 def print_mariage(request,message):
-    return HttpResponse("mariage")
+    """Cette méthode permet à l'officier d'imprimer les actes de mariage"""
+
+    l = generate_acte_mariage_fromdb(message)
+    context = {}
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Voir un acte de mariage"
+    context["form_title"] = "ACTE DE MARIAGE   N°"
+    
+    me = parse_message(message)
+    a = get_actesmariage_by_id(me["mariage"]).__dict__
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+
+    context["message"] = message
+    context["re"] = kl
+    template = loader.get_template("Actes/acte_print.html")
+    return HttpResponse(template.render(context))
+
 
 def get_element(request,code):
 

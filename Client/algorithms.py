@@ -451,14 +451,14 @@ def generate_acte_naissance_fromdb(message):
     model_list = []
     
     # On récupère seleument les infos utiles des db
-    for i in list(dic_.keys())[2:len(dic_.keys())-1]:
+    for i in list(dic_.keys())[7:len(dic_.keys())-1]:
         model_list.append(i)
 
     compteur = 0
     l = []
     print(model_list)
     # On laisse les images pour un traitement spécial
-    for i in form:
+    for i in list(form)[5:]:
         if(compteur<25):
 
             dic = {}
@@ -497,7 +497,7 @@ def generate_acte_deces_fromdb(message):
     model_list = []
     
     # On récupère seleument les infos utiles des db
-    for i in list(dic_.keys())[2:len(dic_.keys())-1]:
+    for i in list(dic_.keys())[7:len(dic_.keys())-1]:
         model_list.append(i)
 
     compteur = 0
@@ -507,7 +507,7 @@ def generate_acte_deces_fromdb(message):
     
     
     # On laisse les images pour un traitement spécial
-    for i in form:
+    for i in list(form)[5:]:
         if(compteur<25):
 
             dic = {}
@@ -545,7 +545,7 @@ def generate_acte_mariage_fromdb(message):
     model_list = []
     
     # On récupère seleument les infos utiles des db
-    for i in list(dic_.keys())[2:len(dic_.keys())-1]:
+    for i in list(dic_.keys())[7:len(dic_.keys())-1]:
         model_list.append(i)
 
     compteur = 0
@@ -555,7 +555,7 @@ def generate_acte_mariage_fromdb(message):
     
     
     # On laisse les images pour un traitement spécial
-    for i in form:
+    for i in list(form)[5:]:
         if(compteur<25):
 
             dic = {}

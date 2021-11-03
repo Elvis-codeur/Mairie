@@ -1,7 +1,14 @@
 from django.db import models
-
+from django.db.models.base import Model
+                                   
 
 class ActesNaissanceModel(models.Model):
+   registre_numero = models.IntegerField(default=0)
+   feillet_numero = models.IntegerField(default=0)
+   volet_numero = models.IntegerField(default=0)
+   annee = models.IntegerField(default=2021)
+   acte_numero = models.IntegerField(default=0)
+
 
    le = models.CharField(verbose_name= "Le",max_length=300)
    heure = models.IntegerField(verbose_name="heure(s)",default=0)
@@ -53,6 +60,13 @@ class ActesNaissanceModel(models.Model):
 
 
 class ActesDecesModel(models.Model):
+    registre_numero = models.IntegerField(default=0)
+    feillet_numero = models.IntegerField(default=0)
+    volet_numero = models.IntegerField(default=0)
+    annee = models.IntegerField(default=2021)
+    acte_numero = models.IntegerField(default=0)
+
+
     # Première parties
     le = models.CharField(verbose_name="Le",max_length=300,default="")
     
@@ -111,7 +125,14 @@ class ActesDecesModel(models.Model):
     
 
 class ActesMariageModel(models.Model):
-    
+    registre_numero = models.IntegerField(default=0)
+    feillet_numero = models.IntegerField(default=0)
+    volet_numero = models.IntegerField(default=0)
+    annee = models.IntegerField(default=2021)
+    acte_numero = models.IntegerField(default=0)
+
+
+
     # Première parties
     le = models.CharField(verbose_name= "Le",default="",max_length=300)
     
@@ -178,3 +199,4 @@ class ActesMariageModel(models.Model):
     identifiant = models.IntegerField(default=0)
     def __str__(self) :
        return self.nom1 + " " + self.prenom1 + "|"+ self.nom2 + " "+ self.prenom2
+

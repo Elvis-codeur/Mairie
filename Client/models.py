@@ -61,6 +61,9 @@ class Executant(models.Model):
     def __str__(self):
         return self.user.last_name
 class Mairie(models.Model):
+    region = models.CharField(default="MARITIME",max_length=20)
+
+    
     #user = models.OneToOneField(User, on_delete=models.SET_DEFAULT,default = 1)
     date_first_creation = models.DateTimeField(auto_now_add=True,verbose_name="Date de parution")
     date_last_modification = models.DateTimeField(auto_now=True,verbose_name="Date de dernière modification")
