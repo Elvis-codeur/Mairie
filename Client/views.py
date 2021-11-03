@@ -467,13 +467,24 @@ def officier_naissance_vue(request,message):
     #Pour les fichiers
     context["no_print"] ="True"
     me = parse_message(message)
-    m = get_actesmariage_by_id(me["naissance"])
+    m = get_actesnaissance_by_id(me["naissance"])
     context["original_url"] = m.original.url
     context["tran_url"] = m.transcription.url
     #Pour l'impression
     context["print_link"] = reverse("Client:print_naissance",kwargs={"message":message})
 
     
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesmariage_by_id(me["mariage"]).__dict__
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+    context["re"] = kl
     context["message"] = message
     return HttpResponse(template.render(context))
 
@@ -493,17 +504,40 @@ def officier_deces_vue(request,message):
     #Pour les fichiers
     context["no_print"] ="True"
     me = parse_message(message)
-    m = get_actesmariage_by_id(me["deces"])
+    m = get_actesdeces_by_id(me["deces"])
     context["original_url"] = m.original.url
     context["tran_url"] = m.transcription.url
     #Pour l'impression
     context["print_link"] = reverse("Client:print_deces",kwargs={"message":message})
 
     context["message"] = message
+
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesmariage_by_id(me["mariage"]).__dict__
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+    context["re"] = kl
     return HttpResponse(template.render(context))
     
 def officier_mariage_vue(request,message):
     """Cette méthode permet à l'officier de voir les actes de mariage"""
+
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesmariage_by_id(me["mariage"]).__dict__
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
 
     template = loader.get_template("Actes/acte_vue.html")
     l = generate_acte_mariage_fromdb(message)
@@ -523,9 +557,14 @@ def officier_mariage_vue(request,message):
     context["original_url"] = m.original.url
     context["tran_url"] = m.transcription.url
     #Pour l'impression
+    
     context["print_link"] = reverse("Client:print_mariage",kwargs={"message":message})
 
     context["message"] = message
+
+    #Pour l'entete
+    context["re"] = kl
+    
     return HttpResponse(template.render(context))
     
 
@@ -534,11 +573,25 @@ def print_naissance(request,message):
     """Cette méthode permet à l'officier d'imprimer les actes de mariage"""
 
     l = generate_acte_naissance_fromdb(message)
+
+
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesmariage_by_id(me["mariage"]).__dict__
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+
     context = {}
     context["form"] = l#l[:len(l)-1]
     context["title"] = "Imprimer un acte de naissance"
     context["form_title"] = "ACTE DE NAISSANCE   N°"
     context["message"] = message
+    context["re"] = kl
     template = loader.get_template("Actes/acte_print.html")
     return HttpResponse(template.render(context))
 
@@ -547,11 +600,24 @@ def print_deces(request,message):
     """Cette méthode permet à l'officier d'imprimer les actes deces"""
 
     l = generate_acte_deces_fromdb(message)
+
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesmariage_by_id(me["mariage"]).__dict__
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+
     context = {}
     context["form"] = l#l[:len(l)-1]
     context["title"] = "Imprimer un acte de naissance"
     context["form_title"] = "ACTE DE DECES   N°"
     context["message"] = message
+    context["re"] = kl
     template = loader.get_template("Actes/acte_print.html")
     return HttpResponse(template.render(context))
 
@@ -565,6 +631,7 @@ def print_mariage(request,message):
     context["title"] = "Voir un acte de mariage"
     context["form_title"] = "ACTE DE MARIAGE   N°"
     
+    # Pour l'entête
     me = parse_message(message)
     a = get_actesmariage_by_id(me["mariage"]).__dict__
 
@@ -577,6 +644,11 @@ def print_mariage(request,message):
 
     context["message"] = message
     context["re"] = kl
+
+    # Pour les footers
+
+    context["naissance_footer"] = "True"
+
     template = loader.get_template("Actes/acte_print.html")
     return HttpResponse(template.render(context))
 

@@ -69,7 +69,7 @@
                     TRAVAIL-LIBERTE-PATRIE</p>
                     <br/>
                     <p>Registre N° {{re.registre_numero}}</p>
-                    <p>Feuillet N° {{re.feuillet_numero}}</p>
+                    <p>Feuillet N° {{re.feillet_numero}}</p>
                     <p>Volet N°  {{re.volet_numero}}</p>
                     <p>Année N°  {{re.annee}}</p>
                 </div>
@@ -81,8 +81,12 @@
         <br/><br/>
 
         <div class="col-md-7 col-lg-8">
+          {%if trans %}
+          <p style="width: 70%;margin: auto; text-decoration: underline;font-size: medium;">{{form_title}} {{re.acte_numero}}</p>
+          {%else%}
           <p style="width: 70%;margin: auto; text-decoration: underline;font-size: xx-large;">{{form_title}} {{re.acte_numero}}</p>
-            <div class="row g-3">
+          {%endif%}
+          <div class="row g-3">
                 <br/><br/>
 
                 {% for k in form %}
@@ -99,7 +103,8 @@
           
         </div>
         <br/><br/>
-
+        
+        {%if mariage_footer %}
         <div class="col-md-7 col-lg-8">
             <div class="row g-3">
                 <div class="col-sm-6"> 
@@ -118,7 +123,7 @@
                     <div class="col-sm-6">Témoin.........</div>
                         </div>
                     </div>
-
+                    <br/><br/>
                     <div class="col-md-7 col-lg-8">
                         <div class="row g-3">
                     <div class="col-sm-6">Epouse.........</div>
@@ -131,6 +136,73 @@
                     </div>
             </div>
         </div>
+
+        <!--Footer pour la naissance -->
+        {%elif naissance_footer %} 
+        <div class="col-md-7 col-lg-8">
+          <div class="row g-3">
+
+            <div class="col-sm-6">
+              <p style="width: 50%;">
+              Sceau et Signature de l'Officier de l'Etat civil 
+              </p>
+            </div>
+
+            <div class="col-sm-6">
+              <p style="width: 50%;">
+              Signature du (de la) déclarant (e)
+              </p>
+            </div>
+
+
+          </div>
+        </div>
+
+        {%elif deces_footer %} 
+        <div class="col-md-7 col-lg-8">
+          <div class="row g-3">
+
+            <div class="col-sm-6">
+              <p style="width: 50%;">
+              Sceau et Signature de l'Officier de l'Etat civil 
+              </p>
+            </div>
+
+            <div class="col-sm-6">
+              <p style="width: 50%;">
+              Signature du (de la) déclarant (e)
+              </p>
+            </div>
+
+
+          </div>
+        </div>
+
+
+        <!--Pour les transcriptions les trois confondus -->
+        {%elif tran_footer %} 
+
+        <div class="col-md-7 col-lg-8">
+          <div class="row g-3">
+            
+            <div class="col-12s">
+              <p style="width: 40%;margin:auto;font-weight: bold;font-size: large;">
+                L'officier de l'Etat civil</p>
+            </div>
+
+            <div class="col-12s">
+              <p style="font-weight: bold;font-size: large;">
+                Signature (s)
+              </p>
+              
+            </div>
+
+            <div class="col-12s">Transcrit le .................................................................................</div>  
+            
+          </div>
+
+        </div>
+        {%endif%}
 
     
     </main>
