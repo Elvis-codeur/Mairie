@@ -648,6 +648,7 @@ def print_mariage(request,message):
     # Pour les footers
 
     context["naissance_footer"] = "True"
+    context["tran_footer"] = "True"
 
     template = loader.get_template("Actes/acte_print.html")
     return HttpResponse(template.render(context))
