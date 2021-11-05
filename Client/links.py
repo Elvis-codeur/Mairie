@@ -25,7 +25,17 @@ LINKS["view-naissance"] = ("officier/voir/naissance/<str:message>",)
 LINKS["view-deces"] = ("officier/voir/deces/<str:message>",)
 LINKS["view-mariage"] = ("officier/voir/mariage/<str:message>",)
 
+# Pour voir les transcription
+LINKS["view-naissance-trans"] = ("officier/voir/naissance/transcription/<str:message>",)
+LINKS["view-deces-trans"] = ("officier/voir/deces/transcription/<str:message>",)
+LINKS["view-mariage-trans"] = ("officier/voir/mariage/transcription/<str:message>",)
+
 # Pour imprimer
 LINKS["print-naissance"] = ("officier/imprimer/naissance/<str:message>",)
 LINKS["print-deces"] = ("officier/imprimer/deces/<str:message>",)
 LINKS["print-mariage"] = ("officier/imprimer/mariage/<str:message>",)
+
+# Pour imprimer les transcription
+LINKS["print-naissance-trans"] = ("officier/imprimer/naissance/transcription/<str:message>",)
+LINKS["print-deces-trans"] = ("officier/imprimer/deces/transcription/<str:message>",)
+LINKS["print-mariage-trans"] = ("officier/imprimer/mariage/transcription/<str:message>",)

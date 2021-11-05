@@ -30,10 +30,22 @@ urlpatterns = [
     path(LINKS["view-deces"][0],views.officier_deces_vue,name = "officier_deces_vue"),
     path(LINKS["view-mariage"][0],views.officier_mariage_vue,name = "officier_mariage_vue"),
     
+    # Pour voir les transcription
+    path(LINKS["view-naissance-trans"][0],views.officier_naissance_transcription_vue,name = "officier_naissance_transcription_vue"),
+    path(LINKS["view-deces-trans"][0],views.officier_deces_transcription_vue,name = "officier_deces_transcription_vue"),
+    path(LINKS["view-mariage-trans"][0],views.officier_mariage_transcription_vue,name = "officier_mariage_transcription_vue"),
+    
+
     #Pour imprimer
     path(LINKS["print-naissance"][0],views.print_naissance,name = "print_naissance"),
     path(LINKS["print-deces"][0],views.print_deces,name="print_deces"), 
     path(LINKS["print-mariage"][0],views.print_mariage,name="print_mariage"),
+
+    # Pour imprimer les transcriptions
+    path(LINKS["print-naissance-trans"][0],views.print_naissance_transcription,name = "print_transcription_naissance"),
+    path(LINKS["print-deces-trans"][0],views.print_deces_transcription,name="print_transcription_deces"), 
+    path(LINKS["print-mariage-trans"][0],views.print_mariage_transcription,name="print_transcription_mariage"),
+
     
     path("get/<str:code>",views.get_element,name = "get_element"),
 ]
