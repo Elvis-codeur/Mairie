@@ -23,7 +23,7 @@ def dashboard(request,message):
         context["form1"] = f1
         context["links"] = create_links(langue="fr")
         context["message"] = message
-        context["list"] = prepare_html_list("naissance",message)
+        context["list"] = prepare_html_list("mariage",message)
 
         template = loader.get_template("Actes/officiers_vue.html")
         return HttpResponse(template.render(context = context,request = request))
@@ -481,7 +481,7 @@ def officier_naissance_vue(request,message):
     
     # Pour l'entête
     me = parse_message(message)
-    a = get_actesmariage_by_id(me["mariage"]).__dict__
+    a = get_actesnaissance_by_id(me["naissance"]).__dict__
 
     # Pour le bas 
     context["naissance_footer"] = "True"
@@ -530,7 +530,7 @@ def officier_naissance_transcription_vue(request,message):
 
     # Pour l'entête
     me = parse_message(message)
-    a = get_actesmariage_by_id(me["mariage"]).__dict__
+    a = get_actesnaissance_by_id(me["naissance"]).__dict__
 
     kl = {}
     compteur = 0
@@ -578,7 +578,7 @@ def officier_deces_vue(request,message):
 
     # Pour l'entête
     me = parse_message(message)
-    a = get_actesmariage_by_id(me["mariage"]).__dict__
+    a = get_actesdeces_by_id(me["deces"]).__dict__
 
     # Pour le bas
     context["deces_footer"] = "True"
@@ -625,7 +625,7 @@ def officier_deces_transcription_vue(request,message):
 
     # Pour l'entête
     me = parse_message(message)
-    a = get_actesmariage_by_id(me["mariage"]).__dict__
+    a = get_actesdeces_by_id(me["deces"]).__dict__
 
     kl = {}
     compteur = 0
@@ -747,7 +747,8 @@ def print_naissance(request,message):
 
     # Pour l'entête
     me = parse_message(message)
-    a = get_actesmariage_by_id(me["mariage"]).__dict__
+    a = get_actesnaissance_by_id(me["naissance"]).__dict__
+
 
     kl = {}
     compteur = 0
@@ -762,6 +763,10 @@ def print_naissance(request,message):
     context["form_title"] = "ACTE DE NAISSANCE   N°"
     context["message"] = message
     context["re"] = kl
+
+    # Pour le bas
+    context["naissance_footer"] = "True"
+
     template = loader.get_template("Actes/acte_print.html")
     return HttpResponse(template.render(context))
 
@@ -773,7 +778,7 @@ def print_naissance_transcription(request,message):
 
     # Pour l'entête
     me = parse_message(message)
-    a = get_actesmariage_by_id(me["mariage"]).__dict__
+    a = get_actesnaissance_by_id(me["naissance"]).__dict__
 
     kl = {}
     compteur = 0
@@ -788,6 +793,10 @@ def print_naissance_transcription(request,message):
     context["form_title"] = "ACTE DE NAISSANCE   N°"
     context["message"] = message
     context["re"] = kl
+
+    # Pour le bas et la transcription
+    context["tran_footer"] = "True"
+
     template = loader.get_template("Actes/acte_print.html")
     return HttpResponse(template.render(context,request=request))
 
@@ -824,7 +833,7 @@ def print_deces_transcription(request,message):
 
     # Pour l'entête
     me = parse_message(message)
-    a = get_actesmariage_by_id(me["mariage"]).__dict__
+    a = get_actesdeces_by_id(me["deces"]).__dict__
 
     kl = {}
     compteur = 0
@@ -839,6 +848,9 @@ def print_deces_transcription(request,message):
     context["form_title"] = "ACTE DE DECES   N°"
     context["message"] = message
     context["re"] = kl
+
+    # Pour le bas
+    context["tran_footer"] = "True"
     template = loader.get_template("Actes/acte_print.html")
     return HttpResponse(template.render(context))
 
@@ -881,7 +893,7 @@ def print_mariage_transcription(request,message):
     context = {}
     context["form"] = l#l[:len(l)-1]
     context["title"] = "Imprimer une actes de mariage"
-    context["form_title"] = "ACTE DE MARIAGE ELVIS  N°"
+    context["form_title"] = "ACTE DE MARIAGE  N°"
     
     # Pour l'entête
     me = parse_message(message)

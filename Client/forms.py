@@ -1,5 +1,11 @@
 from django import forms
 
+
+class NumeroField(forms.widgets.TextInput):
+   def __init__(self,**kwargs):
+       super().__init__(kwargs)
+
+
 class Maire(forms.Form):
    identifiant = forms.IntegerField()
    nom = forms.CharField()
@@ -90,9 +96,13 @@ class MaireForm(forms.Form):
                                     widget=forms.TextInput(attrs={"class":"form-control",
                                     "type":"Password","containner":"col-12s"}),required = True)
     
-   numero = forms.CharField(max_length = 30,widget=forms.TextInput(attrs={"class":"form-control",
+   numero = forms.CharField(max_length = 30,widget=NumeroField(attrs={"class":"form-control",
    "containner":"col-12s"}))
 
    email = forms.EmailField(widget=forms.EmailInput(attrs={"class":"form-control",
    "containner":"col-12s"}))
+
+
+
+
    
