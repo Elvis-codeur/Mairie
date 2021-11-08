@@ -1,5 +1,8 @@
 from django.db import close_old_connections
+from django.forms.forms import Form
 from django.http.response import HttpResponse
+
+from Client.forms import MaireLoginForm
 
 from .links import LINKS
 
@@ -9,14 +12,45 @@ from Client.models import *
 from django.urls import reverse
 
 def create_url_message(tab,action):
-    return "mairie={} executant={} maire={} action={}".format(tab[0],tab[1],tab[2],action)
+    return "mairie={} maire={} executant={} action={}".format(tab[0],tab[1],tab[2],action)
 
-def create_links(langue):
+def create_message(user):
+
+    identifiant =0
+
+    maire_identifiant = 0
+    officier_identifiant = 0
+    mairie_identifiant = 0
+
+    maire = False
+    officier = False
+
+    try:
+        identifiant = get_maireid_by_user(user)
+        maire = True
+    except:
+        identifiant = get_officierid_by_user(user)
+        officier = True
+
+    if(maire):
+        maire_identifiant = identifiant
+    else:
+        officier_identifiant = identifiant
+        officier = get_executant_by_id(identifiant)
+        maire_identifiant = officier.maire.identifiant
+        mairie_identifiant = officier.mairie.identifiant
+
+    return mairie_identifiant,maire_identifiant,officier_identifiant
+
+
+def create_links(langue,request = ""):
     l = {}
     preffix =["n","d","m"]
 
+    mairie_identifiant,maire_identifiant,officier_identifiant = create_message(request.user)
     for i,u in zip(list(LINKS.keys())[1:],preffix):
-        l["{}".format(u)] = "/"+langue+"/"+settings.CLIENT_URL+LINKS[i][1]+ create_url_message([0,0,0],"create")
+        l["{}".format(u)] = "/"+langue+"/"+settings.CLIENT_URL+LINKS[i][1]+ \
+        create_url_message([mairie_identifiant,officier_identifiant,maire_identifiant],"create")
 
     return l        
 
@@ -30,6 +64,18 @@ def dict_from_list(tab):
 def parse_message(message):
     a = message.split(" ")
     return dict_from_list(a)
+
+
+def modify_message(message,keyword,value):
+    a = parse_message(message)
+    a[keyword] = value
+
+    b = ""
+    for i in a.keys():
+        b = b+"{}={} ".format(i,a[i])
+
+    return b
+
 
 def get_mairie_by_id(id):
     return Mairie.objects.get(identifiant = id)
@@ -584,7 +630,13 @@ def generate_acte_mariage_fromdb(message):
     return l
 
 
+def get_maireid_by_user(username):
+    user = User.objects.get(username= username)
+    return Maire.objects.get(user = user).identifiant
 
+def get_officierid_by_user(username):
+    user = User.objects.get(username= username)
+    return Executant.objects.get(user = user).identifiant
 
 def generate_id(model):
     z = model.objects.all()

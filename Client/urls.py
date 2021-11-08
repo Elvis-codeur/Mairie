@@ -41,11 +41,25 @@ urlpatterns = [
     path(LINKS["print-deces"][0],views.print_deces,name="print_deces"), 
     path(LINKS["print-mariage"][0],views.print_mariage,name="print_mariage"),
 
+    #Pour imprimer les pdf
+    path(LINKS["print-pdf-naissance"][0],views.print_naissance_pdf,name = "print_naissance_pdf"),
+    path(LINKS["print-pdf-deces"][0],views.print_deces_pdf,name="print_deces_pdf"), 
+    path(LINKS["print-pdf-mariage"][0],views.print_mariage_pdf,name="print_mariage_pdf"),
+
     # Pour imprimer les transcriptions
     path(LINKS["print-naissance-trans"][0],views.print_naissance_transcription,name = "print_transcription_naissance"),
     path(LINKS["print-deces-trans"][0],views.print_deces_transcription,name="print_transcription_deces"), 
     path(LINKS["print-mariage-trans"][0],views.print_mariage_transcription,name="print_transcription_mariage"),
 
+    
+    # Pour les login
+    path(LINKS["conn-maire"][0],views.maire_login,name="connexion_maire"), 
+    path(LINKS["conn-officier"][0],views.officier_login,name="connexion_officier"),
+
+    path(LINKS["deconn-maire"][0],views.maire_deconnect,name="deconnexion_maire"), 
+    path(LINKS["deconn-officier"][0],views.officier_deconnect,name="deconnexion_officier"),
+
+    
     
     path("get/<str:code>",views.get_element,name = "get_element"),
 ]

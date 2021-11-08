@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import widgets
 
 
 class NumeroField(forms.widgets.TextInput):
@@ -6,10 +7,18 @@ class NumeroField(forms.widgets.TextInput):
        super().__init__(kwargs)
 
 
-class Maire(forms.Form):
-   identifiant = forms.IntegerField()
-   nom = forms.CharField()
-   prenom = forms.CharField()
+class MaireLoginForm(forms.Form):
+   username = forms.CharField(label = "Votre identifiant")
+   password = forms.CharField(max_length = 30,min_length=6,
+                                    widget=forms.TextInput(attrs={'class': 'w3-input',
+                                    "type":"Password"}),required = True,label="Mot de passe")
+    
+class OfficierLoginForm(forms.Form):
+   username = forms.CharField(label = "Votre identifiant")
+   password = forms.CharField(max_length = 30,min_length=6,
+                                    widget=forms.TextInput(attrs={'class': 'w3-input',
+                                    "type":"Password"}),required = True,label="Mot de passe")
+    
 
 
 CATEGORIE_CHOICES =[

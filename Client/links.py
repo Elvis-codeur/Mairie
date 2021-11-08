@@ -35,7 +35,21 @@ LINKS["print-naissance"] = ("officier/imprimer/naissance/<str:message>",)
 LINKS["print-deces"] = ("officier/imprimer/deces/<str:message>",)
 LINKS["print-mariage"] = ("officier/imprimer/mariage/<str:message>",)
 
+# Pour faire les pdf 
+LINKS["print-pdf-naissance"] = ("officier/imprimer/naissance/pdf/<str:message>/<int:number>",)
+LINKS["print-pdf-deces"] = ("officier/imprimer/deces/pdf/<str:message>/<int:number>",)
+LINKS["print-pdf-mariage"] = ("officier/imprimer/mariage/pdf/<str:message>/<int:number>",)
+
 # Pour imprimer les transcription
 LINKS["print-naissance-trans"] = ("officier/imprimer/naissance/transcription/<str:message>",)
 LINKS["print-deces-trans"] = ("officier/imprimer/deces/transcription/<str:message>",)
 LINKS["print-mariage-trans"] = ("officier/imprimer/mariage/transcription/<str:message>",)
+
+
+# Pour la connexion
+LINKS["conn-maire"] = ("connexion/maire",)
+LINKS["conn-officier"] = ("connexion/officier",)
+
+# Pour la deconnection
+LINKS["deconn-maire"] = ("deconnexion/maire",)
+LINKS["deconn-officier"] = ("deconnexion/officier",)

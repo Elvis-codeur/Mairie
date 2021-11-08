@@ -2,6 +2,9 @@ from django.db.models.base import ModelStateFieldsCacheDescriptor
 from django.http.response import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import redirect, render
 
+from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth.decorators import login_required
+
 from django.template import loader
 from Actes.forms import *
 from Actes.verifications import *
@@ -10,6 +13,10 @@ from Client.forms import *
 from Client.models import *
 # Create your views here.
 
+officier_login_url ="/fr/clients/connexion/officier"
+maire_login_url = "/fr/clients/connexion/maire"
+
+@login_required(login_url=officier_login_url)
 def dashboard(request,message):
 
     if(request.method == "POST"):
@@ -21,9 +28,12 @@ def dashboard(request,message):
         f1 = ActesChoiceForm()
         context["form"] =f
         context["form1"] = f1
-        context["links"] = create_links(langue="fr")
+        context["links"] = create_links(langue="fr",request=request)
         context["message"] = message
-        context["list"] = prepare_html_list("mariage",message)
+        context["list"] = prepare_html_list("deces",message)
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
 
         template = loader.get_template("Actes/officiers_vue.html")
         return HttpResponse(template.render(context = context,request = request))
@@ -32,7 +42,7 @@ def dashboard(request,message):
 
     
     
-
+@login_required(login_url=officier_login_url)
 def add_naissance(request,message):
     if(request.method == "POST"):
         form = ActesNaissanceForm(request.POST,request.FILES)
@@ -73,10 +83,15 @@ def add_naissance(request,message):
         context["title"] = "Ajouter actes de naissance"
         context["form_title"] = "ACTE DE NAISSANCE"
         context["message"] = message
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
+
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
 
 
+@login_required(login_url=officier_login_url)
 def modify_naissance(request,message):
     if(request.method == "POST"):
         form = ActesNaissanceForm(request.POST,request.FILES)
@@ -125,11 +140,15 @@ def modify_naissance(request,message):
         context["title"] = "Ajouter actes de naissance"
         context["form_title"] = "ACTE DE NAISSANCE"
         context["message"] = message
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
+    
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
 
 
-
+@login_required(login_url=officier_login_url)
 def add_deces(request,message):
     if(request.method == "POST"):
         form = ActesDecesForm(request.POST,request.FILES)
@@ -169,10 +188,16 @@ def add_deces(request,message):
         context["title"] = "Ajouter actes de décès"
         context["form_title"] = "ACTE DE DECES"
         context["message"] = message
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
+    
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
 
 
+
+@login_required(login_url=officier_login_url)
 def modify_deces(request,message):
     if(request.method == "POST"):
         form = ActesNaissanceForm(request.POST,request.FILES)
@@ -213,10 +238,15 @@ def modify_deces(request,message):
         context["title"] = "Ajouter actes de naissance"
         context["form_title"] = "ACTE DE NAISSANCE"
         context["message"] = message
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
+    
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
 
 
+@login_required(login_url=officier_login_url)
 def add_mariage(request,message):
     if(request.method == "POST"):
         form = ActesMariageForm(request.POST,request.FILES)
@@ -260,10 +290,15 @@ def add_mariage(request,message):
         context["title"] = "Ajouter actes de mariage"
         context["form_title"] = "ACTE DE MARIAGE"
         context["message"] = message
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
+    
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
 
 
+@login_required(login_url=officier_login_url)
 def modify_mariage(request,message):
     if(request.method == "POST"):
         form = ActesNaissanceForm(request.POST,request.FILES)
@@ -304,10 +339,15 @@ def modify_mariage(request,message):
         context["title"] = "Ajouter actes de naissance"
         context["form_title"] = "ACTE DE NAISSANCE"
         context["message"] = message
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
+    
         template = loader.get_template("Actes/templates2.html")
         return HttpResponse(template.render(context = context,request = request))
 
 
+@login_required(login_url=officier_login_url)
 def account_view(request,message):
     if(request.method == "POST"):
         a  = 0
@@ -331,9 +371,13 @@ def account_view(request,message):
         context["form"] = l
         template = loader.get_template("Actes/compte_vue.html")
 
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
+    
         return HttpResponse(template.render(context = context,request = request))
 
 
+@login_required(login_url=maire_login_url)
 def maire_dashboard(request,message):
     
     if(request.method == "POST"):
@@ -347,9 +391,16 @@ def maire_dashboard(request,message):
         context["list"] = prepare_maire_html_list("executant",0,message)
         context["col_head"] = create_col_head(["Nom","Prenom","email","Numéro"])
         context["dashboard"] = "True"
+
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_maire")
+    
         template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))
 
+
+@login_required(login_url=maire_login_url)
 def maire_naissance_view(request,message):
     if(request.method == "POST"):
         a = 0
@@ -360,9 +411,15 @@ def maire_naissance_view(request,message):
         context["message"] = message
         context["list"] = prepare_maire_html_list("naissance",0,message)
         context["col_head"] = create_col_head(["Nom","Prenom","Officiers"])
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_maire")
+    
         template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))
 
+
+@login_required(login_url=maire_login_url)
 def maire_deces_view(request,message):
     if(request.method == "POST"):
         a = 0
@@ -373,9 +430,15 @@ def maire_deces_view(request,message):
         context["message"] = message
         context["list"] = prepare_maire_html_list("deces",0,message)
         context["col_head"] = create_col_head(["Nom","Prenom","Officiers"])
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_maire")
+    
         template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))
 
+
+@login_required(login_url=maire_login_url)
 def maire_mariage_view(request,message):
     if(request.method == "POST"):
         a = 0
@@ -386,9 +449,15 @@ def maire_mariage_view(request,message):
         context["message"] = message
         context["list"] = prepare_maire_html_list("mariage",0,message)
         context["col_head"] = create_col_head(["Nom","Prenom","Officiers"])
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_maire")
+    
         template = loader.get_template("Actes/maire_vue.html")
         return HttpResponse(template.render(context = context,request = request))
 
+
+@login_required(login_url=maire_login_url)
 def maire_account_view(request,message):
     if(request.method == "POST"):
         a  = 0
@@ -409,10 +478,17 @@ def maire_account_view(request,message):
         context = {}
         context["message"] = message
         context["form"] = l
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_maire")
+    
+
         template = loader.get_template("Actes/maire_compte_vue.html")
 
         return HttpResponse(template.render(context = context,request = request))
 
+
+@login_required(login_url=maire_login_url)
 def maire_add_officier(request,message):
     if(request.method == "POST"):
         form = ExecutantForm(request.POST,request.FILES)
@@ -447,10 +523,15 @@ def maire_add_officier(request,message):
         context["form_title"] = "OFFICIERS"
         context["message"] = message
         context["dashboard"] = "True"
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_maire")
+    
         template = loader.get_template("Actes/maire_add_template.html")
         return HttpResponse(template.render(context = context,request = request))
     
 
+@login_required(login_url=officier_login_url)
 def officier_naissance_vue(request,message):
 
 
@@ -495,10 +576,12 @@ def officier_naissance_vue(request,message):
     context["re"] = kl
     context["message"] = message
 
+    
 
     return HttpResponse(template.render(context))
 
 
+@login_required(login_url=officier_login_url)
 def officier_naissance_transcription_vue(request,message):
 
 
@@ -546,6 +629,7 @@ def officier_naissance_transcription_vue(request,message):
 
 
 
+@login_required(login_url=officier_login_url)
 def officier_deces_vue(request,message):
     """Cette méthode permet à l'officier de voir un acte de deces"""
 
@@ -567,7 +651,7 @@ def officier_deces_vue(request,message):
     context["tran_url"] = m.transcription.url
 
     #Pour l'impression
-    context["print_link"] = reverse("Client:print_transcription_deces",kwargs={"message":message}) 
+    context["print_link"] = reverse("Client:print_deces",kwargs={"message":message}) 
 
     context["message"] = message
 
@@ -593,6 +677,7 @@ def officier_deces_vue(request,message):
     return HttpResponse(template.render(context))
     
 
+@login_required(login_url=officier_login_url)
 def officier_deces_transcription_vue(request,message):
     """Cette méthode permet à l'officier de voir un acte de deces"""
 
@@ -637,6 +722,7 @@ def officier_deces_transcription_vue(request,message):
     return HttpResponse(template.render(context))
 
 
+@login_required(login_url=officier_login_url)
 def officier_mariage_vue(request,message):
     """Cette méthode permet à l'officier de voir les actes de mariage"""
 
@@ -687,7 +773,8 @@ def officier_mariage_vue(request,message):
     context["mariage_footer"] = "True"
     
     return HttpResponse(template.render(context,request=request))
-    
+
+@login_required(login_url=officier_login_url)  
 # Transcription mariage
 def officier_mariage_transcription_vue(request,message):
     """Cette méthode permet à l'officier de voir les actes de mariage"""
@@ -738,6 +825,7 @@ def officier_mariage_transcription_vue(request,message):
     
 
 
+@login_required(login_url=officier_login_url)
 # Pour imprimer #######################
 def print_naissance(request,message):
     """Cette méthode permet à l'officier d'imprimer les actes de mariage"""
@@ -770,6 +858,8 @@ def print_naissance(request,message):
     template = loader.get_template("Actes/acte_print.html")
     return HttpResponse(template.render(context))
 
+
+@login_required(login_url=officier_login_url)
 def print_naissance_transcription(request,message):
     """Cette méthode permet à l'officier d'imprimer les actes de mariage"""
 
@@ -801,6 +891,8 @@ def print_naissance_transcription(request,message):
     return HttpResponse(template.render(context,request=request))
 
 
+
+@login_required(login_url=officier_login_url)
 def print_deces(request,message):
     """Cette méthode permet à l'officier d'imprimer les actes deces"""
 
@@ -808,7 +900,10 @@ def print_deces(request,message):
 
     # Pour l'entête
     me = parse_message(message)
-    a = get_actesmariage_by_id(me["mariage"]).__dict__
+    a = get_actesdeces_by_id(me["deces"]).__dict__
+
+    
+
 
     kl = {}
     compteur = 0
@@ -823,9 +918,31 @@ def print_deces(request,message):
     context["form_title"] = "ACTE DE DECES   N°"
     context["message"] = message
     context["re"] = kl
-    template = loader.get_template("Actes/acte_print.html")
-    return HttpResponse(template.render(context))
 
+    # Pour le bas
+    context["deces_footer"] = "Treu"
+
+    template = loader.get_template("Actes/acte_print.html")
+
+    
+    # Pour l'impression on écrit dans un fichier temporaire
+    name = random.randint(0,10**6)
+    f = open("Actes/templates/Actes/{}.html".format(name),"w")
+    f.write(str(template.render(context)))
+    f.close()
+
+    l = str(reverse("Client:print_deces_pdf",
+                kwargs={"message":message,"number":name}))
+
+    a = pdfkit.from_url(l,False)
+
+    response = HttpResponse(str(a),content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=some_file.pdf'
+    
+    return response
+
+
+@login_required(login_url=officier_login_url)
 def print_deces_transcription(request,message):
     """Cette méthode permet à l'officier d'imprimer les actes deces"""
 
@@ -855,6 +972,8 @@ def print_deces_transcription(request,message):
     return HttpResponse(template.render(context))
 
 
+
+@login_required(login_url=officier_login_url)
 def print_mariage(request,message):
     """Cette méthode permet à l'officier d'imprimer les actes de mariage"""
 
@@ -886,6 +1005,8 @@ def print_mariage(request,message):
     template = loader.get_template("Actes/acte_print.html")
     return HttpResponse(template.render(context))
 
+
+@login_required(login_url=officier_login_url)
 def print_mariage_transcription(request,message):
     """Cette méthode permet à l'officier d'imprimer les actes de mariage"""
 
@@ -917,6 +1038,114 @@ def print_mariage_transcription(request,message):
     template = loader.get_template("Actes/acte_print.html")
     return HttpResponse(template.render(context,request=request))
 
+
+
+def maire_login(request):
+    if request.method == "POST":
+        form = MaireLoginForm(request.POST)
+        if form.is_valid():
+            #print(form.cleaned_data)
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(username=username, password=password)  # Nous vérifions si les données sont correctes
+            if user:  # Si l'objet renvoyé n'est pas None
+                login(request, user)
+                message = create_url_message(create_message(user),action="login")
+
+                a = reverse("Client:maire_account_view",kwargs ={"message":message})
+                return HttpResponseRedirect(a)
+            else:
+                return HttpResponse("HHHJHHHS")
+
+        else:
+            print(form.cleaned_data)
+            return HttpResponse("jhhjh")
+
+    else:
+        if request.user.is_authenticated: 
+            message = create_url_message(create_message(request.user),action="login")
+            a = reverse("Client:maire_account_view",kwargs ={"message":message})
+            return HttpResponseRedirect(a)
+        
+        else:
+            print("ELvisjksd")
+            form = MaireLoginForm()
+            context = {}
+            context["form"] = form
+            template = loader.get_template("Actes/login_template.html")
+            return HttpResponse(template.render(request = request,context = context))
+        
+
+
+def officier_login(request):
+    if request.method == "POST":
+        form = OfficierLoginForm(request.POST)
+        if form.is_valid():
+            #print(form.cleaned_data)
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password"]
+            user = authenticate(username=username, password=password)  # Nous vérifions si les données sont correctes
+            if user:  # Si l'objet renvoyé n'est pas None
+                login(request, user)
+
+                message = create_url_message(create_message(user),action="login")
+
+                a = reverse("Client:dashboard",kwargs ={"message":message})
+                return HttpResponseRedirect(a)
+            else:
+                return HttpResponse("HHHJHHHS")
+
+        else:
+            print(form.cleaned_data)
+            return HttpResponse("jhhjh")
+
+    else:
+        if request.user.is_authenticated:
+            #print("lEIVSISDIIO")
+            message = create_url_message(create_message(request.user),action="login")
+            a = reverse("Client:dashboard",kwargs ={"message":message})
+            return HttpResponseRedirect(a)
+        
+        else:
+            #print("ELvisjksd")
+            form = OfficierLoginForm()
+            context = {}
+            context["form"] = form
+            template = loader.get_template("Actes/login_template.html")
+            return HttpResponse(template.render(request = request,context = context))
+        
+       
+
+@login_required(login_url=officier_login_url)
+def officier_deconnect(request):
+    logout(request)
+    a = reverse("Client:connexion_officier")
+    return HttpResponseRedirect(a)
+
+
+def maire_deconnect(request):
+    logout(request)
+    a = reverse("Client:connexion_maire")
+    return HttpResponseRedirect(a)
+
+
+def print_naissance_pdf(request,message,number):
+
+    context = {}
+    template = loader.get_template("Actes/{}.html".format(number))
+    return HttpResponse(template.render(context,request=request))
+
+def print_deces_pdf(request,message,number):
+
+    context = {}
+    template = loader.get_template("Actes/{}.html".format(number))
+    return HttpResponse(template.render(context,request=request))
+
+def print_mariage_pdf(request,message,number):
+
+    context = {}
+    template = loader.get_template("Actes/{}.html".format(number))
+    return HttpResponse(template.render(context,request=request))
 
 def get_element(request,code):
 
