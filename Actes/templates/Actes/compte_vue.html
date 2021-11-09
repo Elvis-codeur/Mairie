@@ -4,7 +4,12 @@
 
 
 <div class="count_view" style="width: 30%;margin: auto;">
+    {%if maire %} 
+    <h1>Les informations</h1>
+    {%else%}
     <h1>Vos informations</h1>
+    {%endif%}
+    
 {% for k in form %}
 <div class="{{k.containner}}">
     <label for="{{k.label}}" class="form-label">{{k.label}}</label>

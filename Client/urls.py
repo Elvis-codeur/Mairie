@@ -19,6 +19,8 @@ urlpatterns = [
     path(LINKS["maire-mariage"][0],views.maire_mariage_view,name="maire_mariage_view"),
     path(LINKS["maire-compte"][0],views.maire_account_view,name = "maire_account"),
     path(LINKS["maire-add-off"][0],views.maire_add_officier,name = "maire_add_officier"),
+    path(LINKS["maire-officer-account"][0],views.maire_officier_account_view,name = "maire_officier_account"),
+
 
     # POur modifier
     path(LINKS["modify-naissance"][0],views.modify_naissance,name="modify_naissance"),
@@ -41,7 +43,7 @@ urlpatterns = [
     path(LINKS["print-deces"][0],views.print_deces,name="print_deces"), 
     path(LINKS["print-mariage"][0],views.print_mariage,name="print_mariage"),
 
-    #Pour imprimer les pdf
+    #Pour imprimer les pdf des originaux
     path(LINKS["print-pdf-naissance"][0],views.print_naissance_pdf,name = "print_naissance_pdf"),
     path(LINKS["print-pdf-deces"][0],views.print_deces_pdf,name="print_deces_pdf"), 
     path(LINKS["print-pdf-mariage"][0],views.print_mariage_pdf,name="print_mariage_pdf"),
@@ -50,6 +52,12 @@ urlpatterns = [
     path(LINKS["print-naissance-trans"][0],views.print_naissance_transcription,name = "print_transcription_naissance"),
     path(LINKS["print-deces-trans"][0],views.print_deces_transcription,name="print_transcription_deces"), 
     path(LINKS["print-mariage-trans"][0],views.print_mariage_transcription,name="print_transcription_mariage"),
+
+    
+     # Pour imprimer les pdf des transcriptions
+    path(LINKS["print-pdf-naissance-trans"][0],views.print_naissance_transcription_pdf,name = "print_transcription_naissance_pdf"),
+    path(LINKS["print-pdf-deces-trans"][0],views.print_deces_transcription_pdf,name="print_transcription_deces_pdf"), 
+    path(LINKS["print-pdf-mariage-trans"][0],views.print_mariage_transcription_pdf,name="print_transcription_mariage_pdf"),
 
     
     # Pour les login

@@ -13,6 +13,7 @@ LINKS["maire-naissance"] = ("maire/naissance/<str:message>",r"add/naissance/")
 LINKS["maire-deces"] = ("maire/deces/<str:message>",r"add/deces/")
 LINKS["maire-mariage"] = ("maire/mariage/<str:message>",r"add/mariage/")
 LINKS["maire-compte"] = ("maire/compte_vue/<str:message>","maire/compte_vue/")
+LINKS["maire-officer-account"]=("maire/officier/compte_vue/<str:message>","maire/compte_vue/")
 LINKS["maire-add-off"] = ("maire/add/officier/<str:message>",)
 
 # Pour les modifications
@@ -40,10 +41,16 @@ LINKS["print-pdf-naissance"] = ("officier/imprimer/naissance/pdf/<str:message>/<
 LINKS["print-pdf-deces"] = ("officier/imprimer/deces/pdf/<str:message>/<int:number>",)
 LINKS["print-pdf-mariage"] = ("officier/imprimer/mariage/pdf/<str:message>/<int:number>",)
 
-# Pour imprimer les transcription
+# Pour imprimer les transcriptions
 LINKS["print-naissance-trans"] = ("officier/imprimer/naissance/transcription/<str:message>",)
 LINKS["print-deces-trans"] = ("officier/imprimer/deces/transcription/<str:message>",)
 LINKS["print-mariage-trans"] = ("officier/imprimer/mariage/transcription/<str:message>",)
+
+# Pour imprimer les pdf des transcriptions
+LINKS["print-pdf-naissance-trans"] = ("officier/imprimer/naissance/transcription/pdf/<str:message>/<int:number>",)
+LINKS["print-pdf-deces-trans"] = ("officier/imprimer/deces/transcription/pdf/<str:message>/<int:number>",)
+LINKS["print-pdf-mariage-trans"] = ("officier/imprimer/mariage/transcription/pdf/<str:message>/<int:number>",)
+
 
 
 # Pour la connexion

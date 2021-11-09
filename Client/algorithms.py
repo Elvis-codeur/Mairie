@@ -58,7 +58,9 @@ def dict_from_list(tab):
     r = {}
     for i in tab:
         k = i.split("=")
-        r[k[0]] = k[1]
+        print(k)
+        if(len(k) > 1):
+            r[k[0]] = k[1]
     return r
 
 def parse_message(message):
@@ -164,18 +166,19 @@ def prepare_maire_html_list(classname,ma,message):
         #print(tab)
         for i in tab:
             p = {}
-            p["link"] = reverse("Client:modify_naissance",kwargs ={"message":m})
-            p["nom"] = i.naissance.nom
-            p["prenom"] = i.naissance.prenom
+            p["link"] = reverse("Client:modify_mariage",kwargs ={"message":m})
+            p["nom"] = i.mariage.nom1
+            p["prenom"] = i.mariage.nom2
             p["executant"] = str(i.executant)
             l.append(p)
 
     elif(classname == "executant"):
-        m = parse_message(message)
+        m = parse_message(message) 
         tab = Executant.objects.filter(maire = get_maire_by_id(m["maire"]))
         for i in tab:
+            ma = modify_message(message,"executant",i.identifiant)
             p = {}
-            #p["link"] = reverse("Client:modify_naissance",kwargs ={"message":m})
+            p["link"] = reverse("Client:maire_officier_account",kwargs ={"message":ma})
             p["nom"] = i.user.first_name
             p["prenom"] = i.user.last_name
             p["executant"] = i.user.email
@@ -186,7 +189,7 @@ def prepare_maire_html_list(classname,ma,message):
         print(tab)
         for i in tab:
             p = {}
-            p["link"] = reverse("Client:modify_naissance",kwargs ={"message":m})
+            p["link"] = reverse("Client:modify_deces",kwargs ={"message":m})
             p["nom"] = i.deces.nom
             p["prenom"] = i.deces.prenom
             p["executant"] = str(i.executant)

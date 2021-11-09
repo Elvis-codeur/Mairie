@@ -30,7 +30,7 @@ def dashboard(request,message):
         context["form1"] = f1
         context["links"] = create_links(langue="fr",request=request)
         context["message"] = message
-        context["list"] = prepare_html_list("deces",message)
+        context["list"] = prepare_html_list("mariage",message)
 
         #Pour la déconnection
         context["disconnect"] = reverse("Client:deconnexion_officier")
@@ -487,6 +487,37 @@ def maire_account_view(request,message):
 
         return HttpResponse(template.render(context = context,request = request))
 
+@login_required(login_url=maire_login_url)
+def maire_officier_account_view(request,message):
+    if(request.method == "POST"):
+        a  = 0
+
+    else:
+
+        a = parse_message(message)
+        executant = get_executant_by_id(a["executant"])
+
+        element = generate_compte_view(executant)
+        print(element)
+        l = []
+        for i in list(element.keys()):
+            b = {}
+            b["label"] = i +":"
+            b["f"] = element[i]
+            b["containner"] = "col-12s"
+            l.append(b)
+
+        context = {}
+        context["message"] = message
+        context["form"] = l
+        context["maire"]="a"
+        template = loader.get_template("Actes/compte_vue.html")
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_maire")
+
+        return HttpResponse(template.render(context = context,request = request))
+
+
 
 @login_required(login_url=maire_login_url)
 def maire_add_officier(request,message):
@@ -856,7 +887,22 @@ def print_naissance(request,message):
     context["naissance_footer"] = "True"
 
     template = loader.get_template("Actes/acte_print.html")
-    return HttpResponse(template.render(context))
+
+    # Pour l'impression on écrit dans un fichier temporaire
+    name = random.randint(0,10**6)
+    f = open("Actes/templates/Actes/{}.html".format(name),"w")
+    f.write(str(template.render(context)))
+    f.close()
+
+    l = str(reverse("Client:print_naissance_pdf",
+                kwargs={"message":message,"number":name}))
+
+    a = pdfkit.from_url(l,False)
+
+    response = HttpResponse(str(a),content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=some_file.pdf'
+    
+    return response
 
 
 @login_required(login_url=officier_login_url)
@@ -888,7 +934,23 @@ def print_naissance_transcription(request,message):
     context["tran_footer"] = "True"
 
     template = loader.get_template("Actes/acte_print.html")
-    return HttpResponse(template.render(context,request=request))
+    
+    # Pour l'impression on écrit dans un fichier temporaire
+    name = random.randint(0,10**6)
+    f = open("Actes/templates/Actes/{}.html".format(name),"w")
+    f.write(str(template.render(context)))
+    f.close()
+
+    l = str(reverse("Client:print_transcription_naissance_pdf",
+                kwargs={"message":message,"number":name}))
+
+    a = pdfkit.from_url(l,False)
+
+    response = HttpResponse(str(a),content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=some_file.pdf'
+    
+    return response
+
 
 
 
@@ -969,7 +1031,22 @@ def print_deces_transcription(request,message):
     # Pour le bas
     context["tran_footer"] = "True"
     template = loader.get_template("Actes/acte_print.html")
-    return HttpResponse(template.render(context))
+    
+    # Pour l'impression on écrit dans un fichier temporaire
+    name = random.randint(0,10**6)
+    f = open("Actes/templates/Actes/{}.html".format(name),"w")
+    f.write(str(template.render(context)))
+    f.close()
+
+    l = str(reverse("Client:print_transcription_deces_pdf",
+                kwargs={"message":message,"number":name}))
+
+    a = pdfkit.from_url(l,False)
+
+    response = HttpResponse(str(a),content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=some_file.pdf'
+    
+    return response
 
 
 
@@ -1003,7 +1080,22 @@ def print_mariage(request,message):
     #context["tran_footer"] = "True"
 
     template = loader.get_template("Actes/acte_print.html")
-    return HttpResponse(template.render(context))
+    
+    # Pour l'impression on écrit dans un fichier temporaire
+    name = random.randint(0,10**6)
+    f = open("Actes/templates/Actes/{}.html".format(name),"w")
+    f.write(str(template.render(context)))
+    f.close()
+
+    l = str(reverse("Client:print_mariage_pdf",
+                kwargs={"message":message,"number":name}))
+
+    a = pdfkit.from_url(l,False)
+
+    response = HttpResponse(str(a),content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=some_file.pdf'
+    
+    return response
 
 
 @login_required(login_url=officier_login_url)
@@ -1036,7 +1128,23 @@ def print_mariage_transcription(request,message):
     context["tran_footer"] = "True"
 
     template = loader.get_template("Actes/acte_print.html")
-    return HttpResponse(template.render(context,request=request))
+
+    # Pour l'impression on écrit dans un fichier temporaire
+    name = random.randint(0,10**6)
+    f = open("Actes/templates/Actes/{}.html".format(name),"w")
+    f.write(str(template.render(context)))
+    f.close()
+
+    l = str(reverse("Client:print_transcription_mariage_pdf",
+                kwargs={"message":message,"number":name}))
+
+    a = pdfkit.from_url(l,False)
+
+    response = HttpResponse(str(a),content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=some_file.pdf'
+    
+    return response
+
 
 
 
@@ -1142,6 +1250,25 @@ def print_deces_pdf(request,message,number):
     return HttpResponse(template.render(context,request=request))
 
 def print_mariage_pdf(request,message,number):
+
+    context = {}
+    template = loader.get_template("Actes/{}.html".format(number))
+    return HttpResponse(template.render(context,request=request))
+
+
+def print_naissance_transcription_pdf(request,message,number):
+
+    context = {}
+    template = loader.get_template("Actes/{}.html".format(number))
+    return HttpResponse(template.render(context,request=request))
+
+def print_deces_transcription_pdf(request,message,number):
+
+    context = {}
+    template = loader.get_template("Actes/{}.html".format(number))
+    return HttpResponse(template.render(context,request=request))
+
+def print_mariage_transcription_pdf(request,message,number):
 
     context = {}
     template = loader.get_template("Actes/{}.html".format(number))
