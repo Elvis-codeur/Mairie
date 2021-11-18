@@ -7,6 +7,11 @@ app_name = "Client"
 urlpatterns = [
     # Pour l'officier
     path(LINKS["dashboard"][0],views.dashboard,name ="dashboard"),
+    
+    path(LINKS["dashboard-naissance"][0],views.dashboard_naissance,name ="dashboard_naissance"),
+    path(LINKS["dashboard-deces"][0],views.dashboard_deces,name ="dashboard_deces"),
+    path(LINKS["dashboard-mariage"][0],views.dashboard_mariage,name ="dashboard_mariage"),
+
     path(LINKS["add-naissance"][0],views.add_naissance,name = "naissance"),
     path(LINKS["add-deces"][0],views.add_deces,name = "deces"),
     path(LINKS["add-mariage"][0],views.add_mariage,name = "mariage"),
@@ -20,8 +25,20 @@ urlpatterns = [
     path(LINKS["maire-compte"][0],views.maire_account_view,name = "maire_account"),
     path(LINKS["maire-add-off"][0],views.maire_add_officier,name = "maire_add_officier"),
     path(LINKS["maire-officer-account"][0],views.maire_officier_account_view,name = "maire_officier_account"),
-
-
+    #Pour voir 
+    path(LINKS["maire-view-naissance"][0],views.maire_naissance_particular_vue,name="maire_naissance_particular_vue"),
+    path(LINKS["maire-view-deces"][0],views.maire_deces_particular_vue,name="maire_deces_particular_vue"),
+    path(LINKS["maire-view-mariage"][0],views.maire_mariage_particular_vue,name="maire_mariage_particular_vue"),
+    # maire POur modifier
+    #path(LINKS["maire-modify-naissance"][0],views.modify_naissance,name="modify_naissance"),
+    #path(LINKS["maire-modify-deces"][0],views.modify_deces,name="modify_deces"),
+    #path(LINKS["maire-modify-mariage"][0],views.modify_mariage,name="modify_mariage"),
+    # Pour voir les transcription
+    path(LINKS["maire-view-naissance-trans"][0],views.maire_naissance_transcription_vue,name = "maire_naissance_transcription_vue"),
+    path(LINKS["maire-view-deces-trans"][0],views.maire_deces_transcription_vue,name = "maire_deces_transcription_vue"),
+    path(LINKS["maire-view-mariage-trans"][0],views.maire_mariage_transcription_vue,name = "maire_mariage_transcription_vue"),
+    
+    
     # POur modifier
     path(LINKS["modify-naissance"][0],views.modify_naissance,name="modify_naissance"),
     path(LINKS["modify-deces"][0],views.modify_deces,name="modify_deces"),

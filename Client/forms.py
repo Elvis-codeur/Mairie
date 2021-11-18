@@ -31,7 +31,7 @@ CATEGORIE_CHOICES =[
 class SearchForm(forms.Form):
 
     categorie = forms.MultipleChoiceField(choices = CATEGORIE_CHOICES,
-                                          label = "Catégorie",
+                                          label = "Classer par",
                                           widget=forms.Select(attrs={'class': 'inp',"id":"catego",
                                           "onclick":"change_sous_categorie()"}))
     

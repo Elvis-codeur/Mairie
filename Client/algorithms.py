@@ -58,7 +58,7 @@ def dict_from_list(tab):
     r = {}
     for i in tab:
         k = i.split("=")
-        print(k)
+        #print(k)
         if(len(k) > 1):
             r[k[0]] = k[1]
     return r
@@ -69,6 +69,7 @@ def parse_message(message):
 
 
 def modify_message(message,keyword,value):
+    """message,keyword,value"""
     a = parse_message(message)
     a[keyword] = value
 
@@ -155,8 +156,9 @@ def prepare_maire_html_list(classname,ma,message):
         tab = NaissanceJournal.objects.filter(maire = get_maire_by_id(ma))
         #print(tab)
         for i in tab:
+            m=modify_message(m,"naissance",i.naissance.identifiant)
             p = {}
-            p["link"] = reverse("Client:modify_naissance",kwargs ={"message":m})
+            p["link"] = reverse("Client:maire_naissance_particular_vue",kwargs ={"message":m})
             p["nom"] = i.naissance.nom
             p["prenom"] = i.naissance.prenom
             p["executant"] = str(i.executant)
@@ -165,8 +167,9 @@ def prepare_maire_html_list(classname,ma,message):
         tab = MariageJournal.objects.filter(maire = get_maire_by_id(ma))
         #print(tab)
         for i in tab:
+            m=modify_message(m,"mariage",i.mariage.identifiant)
             p = {}
-            p["link"] = reverse("Client:modify_mariage",kwargs ={"message":m})
+            p["link"] = reverse("Client:maire_mariage_particular_vue",kwargs ={"message":m})
             p["nom"] = i.mariage.nom1
             p["prenom"] = i.mariage.nom2
             p["executant"] = str(i.executant)
@@ -188,8 +191,9 @@ def prepare_maire_html_list(classname,ma,message):
         tab = DecesJournal.objects.filter(maire = get_maire_by_id(ma))
         print(tab)
         for i in tab:
+            m=modify_message(m,"deces",i.deces.identifiant)
             p = {}
-            p["link"] = reverse("Client:modify_deces",kwargs ={"message":m})
+            p["link"] = reverse("Client:maire_deces_particular_vue",kwargs ={"message":m})
             p["nom"] = i.deces.nom
             p["prenom"] = i.deces.prenom
             p["executant"] = str(i.executant)

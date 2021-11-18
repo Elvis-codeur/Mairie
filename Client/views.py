@@ -1,9 +1,14 @@
+import re
 from django.db.models.base import ModelStateFieldsCacheDescriptor
 from django.http.response import HttpResponse, HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import redirect, render
 
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
+
+import weasyprint
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 
 from django.template import loader
 from Actes.forms import *
@@ -30,7 +35,7 @@ def dashboard(request,message):
         context["form1"] = f1
         context["links"] = create_links(langue="fr",request=request)
         context["message"] = message
-        context["list"] = prepare_html_list("mariage",message)
+        context["list"] = prepare_html_list("deces",message)
 
         #Pour la déconnection
         context["disconnect"] = reverse("Client:deconnexion_officier")
@@ -39,6 +44,72 @@ def dashboard(request,message):
         return HttpResponse(template.render(context = context,request = request))
     
     
+@login_required(login_url=officier_login_url)
+def dashboard_naissance(request,message):
+
+    if(request.method == "POST"):
+        a = 0
+
+    else:
+        context = {}
+        f = SearchForm()
+        f1 = ActesChoiceForm()
+        context["form"] =f
+        context["form1"] = f1
+        context["links"] = create_links(langue="fr",request=request)
+        context["message"] = message
+        context["list"] = prepare_html_list("naissance",message)
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
+
+        template = loader.get_template("Actes/officiers_vue.html")
+        return HttpResponse(template.render(context = context,request = request))
+
+
+@login_required(login_url=officier_login_url)
+def dashboard_mariage(request,message):
+
+    if(request.method == "POST"):
+        a = 0
+
+    else:
+        context = {}
+        f = SearchForm()
+        f1 = ActesChoiceForm()
+        context["form"] =f
+        context["form1"] = f1
+        context["links"] = create_links(langue="fr",request=request)
+        context["message"] = message
+        context["list"] = prepare_html_list("mariage",message)
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
+
+        template = loader.get_template("Actes/officiers_vue.html")
+        return HttpResponse(template.render(context = context,request = request))
+
+@login_required(login_url=officier_login_url)
+def dashboard_deces(request,message):
+
+    if(request.method == "POST"):
+        a = 0
+
+    else:
+        context = {}
+        f = SearchForm()
+        f1 = ActesChoiceForm()
+        context["form"] =f
+        context["form1"] = f1
+        context["links"] = create_links(langue="fr",request=request)
+        context["message"] = message
+        context["list"] = prepare_html_list("deces",message)
+
+        #Pour la déconnection
+        context["disconnect"] = reverse("Client:deconnexion_officier")
+
+        template = loader.get_template("Actes/officiers_vue.html")
+        return HttpResponse(template.render(context = context,request = request))
 
     
     
@@ -448,7 +519,7 @@ def maire_mariage_view(request,message):
         context = {}
         context["message"] = message
         context["list"] = prepare_maire_html_list("mariage",0,message)
-        context["col_head"] = create_col_head(["Nom","Prenom","Officiers"])
+        context["col_head"] = create_col_head(["Nom du marié","Nom de la mariée","Officiers"])
 
         #Pour la déconnection
         context["disconnect"] = reverse("Client:deconnexion_maire")
@@ -511,7 +582,7 @@ def maire_officier_account_view(request,message):
         context["message"] = message
         context["form"] = l
         context["maire"]="a"
-        template = loader.get_template("Actes/compte_vue.html")
+        template = loader.get_template("Actes/maire_compte_vue.html")
         #Pour la déconnection
         context["disconnect"] = reverse("Client:deconnexion_maire")
 
@@ -563,6 +634,294 @@ def maire_add_officier(request,message):
     
 
 @login_required(login_url=officier_login_url)
+def maire_naissance_particular_vue(request,message):
+
+
+    template = loader.get_template("Actes/maire_acte_vue.html")
+    l = generate_acte_naissance_fromdb(message)
+    context = {}
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Ajouter un officiers"
+    context["form_title"] = "ACTE DE NAISSANCE N°"
+    context["acte_modification"] = "True"
+    context["acte"] = "naissance"
+    context["acte_mod_link"] = reverse("Client:modify_naissance",kwargs={"message":message})
+    
+    
+    #Pour les fichiers
+    context["no_print"] ="True"
+    me = parse_message(message)
+    m = get_actesnaissance_by_id(me["naissance"])
+    context["original_url"] = m.original.url
+    context["tran_url"] = m.transcription.url
+    #Pour l'impression
+    context["print_link"] = reverse("Client:print_naissance",kwargs={"message":message})
+
+    # POur la transciption
+    context["trans_ori"] = "la transcription"
+    context["acte_trans_link"] = reverse("Client:maire_naissance_transcription_vue",kwargs={"message":message} )
+
+    
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesnaissance_by_id(me["naissance"]).__dict__
+
+    # Pour le bas 
+    context["naissance_footer"] = "True"
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+    context["re"] = kl
+    context["message"] = message
+
+    
+
+    return HttpResponse(template.render(context))
+
+@login_required(login_url=maire_login_url)
+def maire_mariage_particular_vue(request,message):
+    """Cette méthode permet à l'officier de voir un acte de deces"""
+
+    template = loader.get_template("Actes/maire_acte_vue.html")
+    l = generate_acte_deces_fromdb(message)
+    context = {}
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Ajouter un officiers"
+    context["form_title"] = "ACTE DE DECES N°"
+    context["acte_modification"] = "True"
+    context["acte"] = "deces"
+    context["acte_mod_link"] = reverse("Client:modify_deces",kwargs={"message":message})
+    
+    #Pour les fichiers
+    context["no_print"] ="True"
+    me = parse_message(message)
+    m = get_actesdeces_by_id(me["deces"])
+    context["original_url"] = m.original.url
+    context["tran_url"] = m.transcription.url
+
+    #Pour l'impression
+    context["print_link"] = reverse("Client:print_deces",kwargs={"message":message}) 
+
+    context["message"] = message
+
+    # POur la transciption
+    context["trans_ori"] = "la transcription"
+    context["acte_trans_link"] = reverse("Client:maire_deces_transcription_vue",kwargs={"message":message} )
+
+
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesdeces_by_id(me["deces"]).__dict__
+
+    # Pour le bas
+    context["deces_footer"] = "True"
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+    context["re"] = kl
+    return HttpResponse(template.render(context))
+
+
+@login_required(login_url=maire_login_url)
+def maire_deces_particular_vue(request,message):
+    """Cette méthode permet à l'officier de voir un acte de deces"""
+
+    template = loader.get_template("Actes/maire_acte_vue.html")
+    l = generate_acte_deces_fromdb(message)
+    context = {}
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Ajouter un officiers"
+    context["form_title"] = "ACTE DE DECES N°"
+    context["acte_modification"] = "True"
+    context["acte"] = "deces"
+    context["acte_mod_link"] = reverse("Client:modify_deces",kwargs={"message":message})
+    
+    #Pour les fichiers
+    context["no_print"] ="True"
+    me = parse_message(message)
+    m = get_actesdeces_by_id(me["deces"])
+    context["original_url"] = m.original.url
+    context["tran_url"] = m.transcription.url
+
+    #Pour l'impression
+    context["print_link"] = reverse("Client:print_deces",kwargs={"message":message}) 
+
+    context["message"] = message
+
+    # POur la transciption
+    context["trans_ori"] = "la transcription"
+    context["acte_trans_link"] = reverse("Client:maire_deces_transcription_vue",kwargs={"message":message} )
+
+
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesdeces_by_id(me["deces"]).__dict__
+
+    # Pour le bas
+    context["deces_footer"] = "True"
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+    context["re"] = kl
+    return HttpResponse(template.render(context))
+
+
+@login_required(login_url=maire_login_url)
+def maire_naissance_transcription_vue(request,message):
+
+
+    template = loader.get_template("Actes/maire_acte_vue.html")
+    l = generate_acte_naissance_fromdb(message)
+    context = {}
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Ajouter un officiers"
+    context["form_title"] = "ACTE DE NAISSANCE N°"
+    context["trans"] = "j"
+    context["acte_modification"] = "True"
+    context["acte"] = "naissance"
+    context["acte_mod_link"] = reverse("Client:modify_naissance",kwargs={"message":message})
+    
+    #Pour les fichiers
+    context["no_print"] ="True"
+    me = parse_message(message)
+    m = get_actesnaissance_by_id(me["naissance"])
+    context["original_url"] = m.original.url
+    context["tran_url"] = m.transcription.url
+
+
+    #Pour l'impression
+    context["print_link"] = reverse("Client:print_transcription_naissance",kwargs={"message":message}) 
+
+    # POur la transciption
+    context["trans_ori"] = "l'original"
+    context["acte_trans_link"] = reverse("Client:maire_naissance_particular_vue",kwargs={"message":message} )
+    context["tran_footer"] = "True"
+
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesnaissance_by_id(me["naissance"]).__dict__
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+    
+
+    context["re"] = kl
+    context["message"] = message
+    return HttpResponse(template.render(context,request))
+
+@login_required(login_url=maire_login_url)
+def maire_deces_transcription_vue(request,message):
+    """Cette méthode permet à l'officier de voir un acte de deces"""
+
+    template = loader.get_template("Actes/maire_acte_vue.html")
+    l = generate_acte_deces_fromdb(message)
+    context = {}
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Ajouter un officiers"
+    context["form_title"] = "ACTE DE DECES N°"
+    context["acte_modification"] = "True"
+    context["acte"] = "deces"
+    context["acte_mod_link"] = reverse("Client:modify_deces",kwargs={"message":message})
+    
+    #Pour les fichiers
+    context["no_print"] ="True"
+    me = parse_message(message)
+    m = get_actesdeces_by_id(me["deces"])
+    context["original_url"] = m.original.url
+    context["tran_url"] = m.transcription.url
+
+    #Pour l'impression
+    context["print_link"] = reverse("Client:print_transcription_deces",kwargs={"message":message})
+
+    context["message"] = message
+
+    # POur la transciption
+    context["trans_ori"] = "l'original"
+    context["acte_trans_link"] = reverse("Client:maire_deces_particular_vue",kwargs={"message":message} )
+    context["tran_footer"] = "True"
+
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesdeces_by_id(me["deces"]).__dict__
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+    context["re"] = kl
+    return HttpResponse(template.render(context))
+
+@login_required(login_url=officier_login_url)  
+# Transcription mariage
+def maire_mariage_transcription_vue(request,message):
+    """Cette méthode permet à l'officier de voir les actes de mariage"""
+
+    # Pour l'entête
+    me = parse_message(message)
+    a = get_actesmariage_by_id(me["mariage"]).__dict__
+
+    kl = {}
+    compteur = 0
+    for i in list(a.keys())[2:7]:
+        kl[i] = a[i]
+        compteur = compteur+1
+
+
+    template = loader.get_template("Actes/maire_acte_vue.html")
+    l = generate_acte_mariage_fromdb(message)
+    context = {}
+    context["form"] = l#l[:len(l)-1]
+    context["title"] = "Voir un acte de mariage"
+    context["form_title"] = "ACTE DE MARIAGE N°"
+    #Pour la modification
+    context["acte_modification"] = "True"
+    context["acte"] = "mariage"
+    context["acte_mod_link"] = reverse("Client:modify_mariage",kwargs={"message":message})
+    
+    #Pour les fichiers
+    context["no_print"] ="True"
+    me = parse_message(message)
+    m = get_actesmariage_by_id(me["mariage"])
+    context["original_url"] = m.original.url
+    context["tran_url"] = m.transcription.url
+
+    #Pour l'impression
+    context["print_link"] = reverse("Client:print_transcription_mariage",kwargs={"message":message}) 
+
+    # POur la transciption
+    context["trans_ori"] = "l'original"
+    context["acte_trans_link"] = reverse("Client:maire_mariage_particular_vue",kwargs={"message":message} )
+    context["tran_footer"] = "True"
+
+    context["message"] = message
+
+    #Pour l'entete
+    context["re"] = kl
+    
+    return HttpResponse(template.render(context))
+
+
+
+
+@login_required(login_url=officier_login_url)
 def officier_naissance_vue(request,message):
 
 
@@ -571,7 +930,7 @@ def officier_naissance_vue(request,message):
     context = {}
     context["form"] = l#l[:len(l)-1]
     context["title"] = "Ajouter un officiers"
-    context["form_title"] = "NAISSANCE"
+    context["form_title"] = "ACTE DE NAISSANCE N°"
     context["acte_modification"] = "True"
     context["acte"] = "naissance"
     context["acte_mod_link"] = reverse("Client:modify_naissance",kwargs={"message":message})
@@ -621,7 +980,8 @@ def officier_naissance_transcription_vue(request,message):
     context = {}
     context["form"] = l#l[:len(l)-1]
     context["title"] = "Ajouter un officiers"
-    context["form_title"] = "NAISSANCE"
+    context["form_title"] = "ACTE DE NAISSANCE N°"
+    context["trans"] = "j"
     context["acte_modification"] = "True"
     context["acte"] = "naissance"
     context["acte_mod_link"] = reverse("Client:modify_naissance",kwargs={"message":message})
@@ -669,7 +1029,7 @@ def officier_deces_vue(request,message):
     context = {}
     context["form"] = l#l[:len(l)-1]
     context["title"] = "Ajouter un officiers"
-    context["form_title"] = "DECES"
+    context["form_title"] = "ACTE DE DECES N°"
     context["acte_modification"] = "True"
     context["acte"] = "deces"
     context["acte_mod_link"] = reverse("Client:modify_deces",kwargs={"message":message})
@@ -717,7 +1077,7 @@ def officier_deces_transcription_vue(request,message):
     context = {}
     context["form"] = l#l[:len(l)-1]
     context["title"] = "Ajouter un officiers"
-    context["form_title"] = "DECES"
+    context["form_title"] = "ACTE DE DECES N°"
     context["acte_modification"] = "True"
     context["acte"] = "deces"
     context["acte_mod_link"] = reverse("Client:modify_deces",kwargs={"message":message})
@@ -773,7 +1133,7 @@ def officier_mariage_vue(request,message):
     context = {}
     context["form"] = l#l[:len(l)-1]
     context["title"] = "Voir un acte de mariage"
-    context["form_title"] = "MARIAGE"
+    context["form_title"] = "ACTE DE MARIAGE N°"
     #Pour la modification
     context["acte_modification"] = "True"
     context["acte"] = "mariage"
@@ -826,7 +1186,7 @@ def officier_mariage_transcription_vue(request,message):
     context = {}
     context["form"] = l#l[:len(l)-1]
     context["title"] = "Voir un acte de mariage"
-    context["form_title"] = "MARIAGE"
+    context["form_title"] = "ACTE DE MARIAGE N°"
     #Pour la modification
     context["acte_modification"] = "True"
     context["acte"] = "mariage"
@@ -897,8 +1257,23 @@ def print_naissance(request,message):
     l = str(reverse("Client:print_naissance_pdf",
                 kwargs={"message":message,"number":name}))
 
-    a = pdfkit.from_url(l,False)
+    import requests
+    a = requests.get("http://127.0.0.1:8070"+l)
 
+    a = pdfkit.from_url("http://127.0.0.1:8070"+l,False)
+
+    """
+    web = QWebView()
+    #Read the URL given
+    web.load(QUrl(url))
+    printer = QPrinter()
+    #setting format
+    printer.setPageSize(QPrinter.A4)
+    printer.setOrientation(QPrinter.Landscape)
+    printer.setOutputFormat(QPrinter.PdfFormat)
+    #export file as c:\tem_pdf.pdf
+    printer.setOutputFileName(tem_pdf)
+    """
     response = HttpResponse(str(a),content_type='application/pdf')
     response['Content-Disposition'] = 'filename=some_file.pdf'
     
@@ -1241,6 +1616,7 @@ def print_naissance_pdf(request,message,number):
 
     context = {}
     template = loader.get_template("Actes/{}.html".format(number))
+    print(template.render(context,request=request),"\n\n\n")
     return HttpResponse(template.render(context,request=request))
 
 def print_deces_pdf(request,message,number):

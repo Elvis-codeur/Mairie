@@ -18,7 +18,7 @@ function send_info()
     
     
     //alert("done")
-    
+    /*
     datas = document.getElementsByTagName("input")
     for(var i = 0;i<datas.length;i++)
     {
@@ -27,6 +27,7 @@ function send_info()
             datas[i].value = 1
         }
     }
+    */
     
     
     /*

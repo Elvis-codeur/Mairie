@@ -81,7 +81,7 @@
 <div class="px-3 py-2 bg-dark text-white">
   <div class="container">
     <a href="" style="font-size: 2em;width: 30%;margin: auto;" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-        Mairie de Tsévié</a>
+        Mairie de GOLFE 1</a>
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
       <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -129,9 +129,6 @@
       <a type="button" class="btn btn-primary" href = "{% url "Client:maire_add_officier" message %}" style="color:white">Ajouter un officier</a>
     </div>
     {%elif acte_modification %}
-    <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
-      <a type="button" class="btn btn-primary" href = "{{acte_mod_link}}" style="color:white">Modifier cet acte de {{acte}}</a>
-    </div>
     <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
       <a type="button" class="btn btn-primary" href = "{{acte_trans_link}}" style="color:white">Voir {{trans_ori}}</a>
     </div>

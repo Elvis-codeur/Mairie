@@ -78,7 +78,7 @@
     <div class="px-3 py-2 bg-dark text-white">
       <div class="container">
         <a href="" style="font-size: 2em;width: 30%;margin: auto;" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-            Mairie de Tsévié</a>
+            Mairie de GOLFE 1</a>
         
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
           
@@ -138,14 +138,32 @@
   </header>
 
 
+
   {% block main %}
       
 <div class ="div-tab" id ="table" >
     <!--<div class = "table-title">Actes de naissance</div> -->
-    <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
-      {% csrf_token %} 
-      {{form1.as_p}}
-  </div>
+    <div class="px-3 py-2 border-bottom mb-3">
+      <div class="container d-flex flex-wrap justify-content-center">
+
+        <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+          <a class="btn btn-primary" href="{% url "Client:dashboard_naissance" message %}" style="color: white;">Acte de naissance</a>
+        
+        </div>
+
+        <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+          <a class="btn btn-primary" href="{% url "Client:dashboard_mariage" message %}" style="color: white;">Actes de mariage </a>
+        
+        </div>
+        <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+          <a class="btn btn-primary" href="{% url "Client:dashboard_deces" message %}" style="color: white;">Acte de décès </a>
+        
+        </div>
+
+      </div>
+    </div>
+
+  <br/>
     <table id="result_list" style="width: 100%;">
     <thead>
     <tr>

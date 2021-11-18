@@ -2,6 +2,12 @@
 LINKS = {}
 
 LINKS["dashboard"] = ("officier/dashboard/<str:message>",r"officier/dashboard/")
+
+LINKS["dashboard-naissance"] =("officier/dashboard/naissance/<str:message>",r"officier/dashboard/")
+LINKS["dashboard-deces"] =("officier/dashboard/deces/<str:message>",r"officier/dashboard/")
+LINKS["dashboard-mariage"] =("officier/dashboard/mariage/<str:message>",r"officier/dashboard/")
+
+
 LINKS["add-naissance"] = ("officier/add/naissance/<str:message>",r"officier/add/naissance/")
 LINKS["add-deces"] = ("officier/add/deces/<str:message>",r"officier/add/deces/")
 LINKS["add-mariage"] = ("officier/add/mariage/<str:message>",r"officier/add/mariage/")
@@ -15,11 +21,26 @@ LINKS["maire-mariage"] = ("maire/mariage/<str:message>",r"add/mariage/")
 LINKS["maire-compte"] = ("maire/compte_vue/<str:message>","maire/compte_vue/")
 LINKS["maire-officer-account"]=("maire/officier/compte_vue/<str:message>","maire/compte_vue/")
 LINKS["maire-add-off"] = ("maire/add/officier/<str:message>",)
+# Pour voir maire
+LINKS["maire-view-naissance"] = ("maire/voir/naissance/<str:message>",)
+LINKS["maire-view-deces"] = ("maire/voir/deces/<str:message>",)
+LINKS["maire-view-mariage"] = ("maire/voir/mariage/<str:message>",)
+# Pour les modifications
+LINKS["maire-modify-naissance"] = ("maire/modifier/naissance/<str:message>","modifier/naissance/")
+LINKS["maire-modify-deces"] = ("maire/modifier/deces/<str:message>","officier/modifier/deces/")
+LINKS["maire-modify-mariage"] = ("maire/modifier/mariage/<str:message>","officer/modifier/mariage/")
+# Pour voir les transcription
+LINKS["maire-view-naissance-trans"] = ("maire/voir/naissance/transcription/<str:message>",)
+LINKS["maire-view-deces-trans"] = ("maire/voir/deces/transcription/<str:message>",)
+LINKS["maire-view-mariage-trans"] = ("maire/voir/mariage/transcription/<str:message>",)
+
+
 
 # Pour les modifications
 LINKS["modify-naissance"] = ("officier/modifier/naissance/<str:message>","modifier/naissance/")
 LINKS["modify-deces"] = ("officier/modifier/deces/<str:message>","officier/modifier/deces/")
 LINKS["modify-mariage"] = ("officer/modifier/mariage/<str:message>","officer/modifier/mariage/")
+
 
 # Pour voir
 LINKS["view-naissance"] = ("officier/voir/naissance/<str:message>",)

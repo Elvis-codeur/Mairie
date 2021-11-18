@@ -207,7 +207,7 @@ class ActesDecesForm(forms.Form):
     dresse_domicile= forms.CharField(label = "domicilié (e) à",
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
 
-    dresse_lecture= forms.CharField(label = "qui lecture faite et invité (e) à lire a (ont) signé avec NOUS",
+    dresse_lecture= forms.CharField(label = "qui lecture faite a signé avec NOUS",
     widget=forms.TextInput(attrs={"class":"form-control","containner":"col-12s"}))
 
     transcription = forms.FileField(label= "Transciption")

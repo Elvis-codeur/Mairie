@@ -1,5 +1,4 @@
 {% extends "Actes/officiers_vue.html" %}
-
 {%block inter %}
 <div class="px-3 py-2 border-bottom mb-3">
   <div class="container d-flex flex-wrap justify-content-center">
@@ -58,6 +57,7 @@
 
 {% block main %} 
 
+{% if not mariage %}
 <div class ="div-tab" id ="table" >
     <!--<div class = "table-title">Actes de naissance</div> -->
     <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
@@ -83,7 +83,7 @@
     {% for i in list %} 
     <tr>
        <th class="field-le"><a href="{{i.link}}">{{i.nom}}</a></th>
-        <td class="field-nom">{{i.nom}}</td>
+        <td class="field-nom">{{i.prenom}}</td>
         <td class="field-prenom">{{i.executant}}</td>
     </tr>
     {%endfor%}
@@ -91,5 +91,41 @@
     </tbody>
     </table>
     </div>
+{%else%}
+<div class ="div-tab" id ="table" >
+  <!--<div class = "table-title">Actes de naissance</div> -->
+  <div class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto">
+    {% csrf_token %} 
+    {{form1.as_p}}
+</div>
+<h1 style="width: 20%;margin: auto;color:black;font-size:1.6em;">{{table_title}}</h1>
+<br/>
+  <table id="result_list" style="width: 100%;">
+  <thead>
+  <tr>
+  
+  {% for i in col_head %}
+  <th scope="col" class="sortable column-le">
+     
+     <div class="text">{{i.value}}</div>
+     <div class="clear"></div>
+  </th>
+  {%endfor%}
+  </thead>
+  <tbody>
+
+  {% for i in list %} 
+  <tr>
+     <th class="field-le"><a href="{{i.link}}">{{i.nom}}</a></th>
+      <td class="field-nom">{{i.nom}}</td>
+      <td class="field-prenom">{{i.executant}}</td>
+  </tr>
+  {%endfor%}
+  
+  </tbody>
+  </table>
+  </div>
+
+{%endif%}
 
 {%endblock%}
